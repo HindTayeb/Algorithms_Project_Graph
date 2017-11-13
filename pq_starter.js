@@ -1,11 +1,12 @@
 // CPCS 324 Algorithms & Data Structures 2
 // Outline - Priority queue data structure
 // 2017, Dr. Muhammad Al-Hashimi
-
-
+// -----------------------------------------------------------------------
+/**
+ * @author Sahar Ashmawi
+ */
 // -----------------------------------------------------------------------
 // Basic design decisions and implementation planning (objects & interfaces)
-
 // initial requirements: to quickly support Dijkstra and second Prim's algorithms, 
 // implement minimum priority functionality
 
@@ -31,8 +32,8 @@
 // <student fill here>
 // encapsulation violation for linked list that became aware of the internal details of the items.
 // second Prim’s 
-
 // -----------------------------------------------------------------------
+
 // Priority queue object constructor (document using JSDOC comments)
 /**
  * create an object from priority queue.
@@ -41,15 +42,15 @@
  */
 function PQueue()
 {
-	this.pq = new List();          // requirement: linked-list implementation
-	
-	// specify (design) methods
-	
-	this.isEmpty = isEmptyImpl;                  // return true if queue empty
-	this.deleteMin = deleteMinImpl;                // remove/return item with minimum priority
-	this.insert = insertImpl;                   // insert an item with priority
-	this.decrease =  decreaseImpl;               // (fill) update item priority (decrease as defined in textbook) 
-	
+    this.pq = new List(); // requirement: linked-list implementation
+
+    // specify (design) methods
+
+    this.isEmpty = isEmptyImpl; // return true if queue empty
+    this.deleteMin = deleteMinImpl; // remove/return item with minimum priority
+    this.insert = insertImpl; // insert an item with priority
+    this.decrease = decreaseImpl; // (fill) update item priority (decrease as defined in textbook) 
+
 }
 
 // -----------------------------------------------------------------------
@@ -63,11 +64,11 @@ function PQueue()
 
 function PQNode(item, key)
 {
-	this.item = item;
-	this.prior = key;
-	
-	// specify (design) methods
-	
+    this.item = item;
+    this.prior = key;
+
+    // specify (design) methods
+
 }
 
 // -----------------------------------------------------------------------
@@ -79,8 +80,9 @@ function PQNode(item, key)
  * @author Sahar Ashmawi
  * @returns true or false.
  */
-function isEmptyImpl(){
-this.pq.isEmpty();
+function isEmptyImpl()
+{
+    this.pq.isEmpty();
 }
 //-------------------------------------------------------------------------
 /**
@@ -88,12 +90,14 @@ this.pq.isEmpty();
  * @author Sahar Ashmawi
  * @returns item has highest priority.
  */
-function deleteMinImpl(){
-var item;
-if (!this.isEmpty()){
-    item = this.pq.delete_first();
-}
-return item;
+function deleteMinImpl()
+{
+    var item;
+    if (!this.isEmpty())
+    {
+        item = this.pq.delete_first();
+    }
+    return item;
 }
 //-------------------------------------------------------------------------
 /**
@@ -102,25 +106,34 @@ return item;
  * @param {PQNode} item 
  * @param {Integer} key 
  */
-function insertImpl(item, key){
-    var newItem = new LNode(item); 
-	var current = this.pq.first; // first node.
+function insertImpl(item, key)
+{
+    var newItem = new LNode(item);
+    var current = this.pq.first; // first node.
 
-	// the insert item has three cases:
-	// - the list is empty, insert item in first node.
-	if (this.isEmpty())
-	{
-		this.pq.insert(item);
-	}
-	// - the item has high priority.
-	else if (item.key < current.item.key)
-	{
-		newItem.next = current;
-		this.pq.first = newItem;
-	}
-	// - the item has low priority.
-	else 
-	{
+    // the insert item has three cases:
+    // - the list is empty, insert item in first node.
+    if (this.isEmpty())
+    {
+        this.pq.insert(item);
+    }
+    // - the item has high priority.
+    else if (item.key < current.item.key)
+    {
+        newItem.next = current;
+        this.pq.first = newItem;
+    }
+    // - the item has low priority.
+    else
+    {
+        while (current.next != null)
+        {
+            if (item.key < current.next.item.key)
+            {
+                break;
+            }
+            current = current.next;
+        }
         newItem.next = current.next;
         current.next = newItem;
     }
@@ -132,27 +145,28 @@ function insertImpl(item, key){
  * @param {Object} item // vertex 
  * @param {Integer} key // distance
  */
-function decreaseImpl(item, key) { 
-	var head = null;
-	var current = this.pq.first; // first node.
+function decreaseImpl(item, key)
+{
+    var head = null;
+    var current = this.pq.first; // first node.
 
-	while (current.next != null)
-	{
-		if (key < current.key)
-		{
-			current.item.key = key;
-		} 
-		else if (key == current.key)
-		{
-			this.deleteMin();
-			this.insert(item, current.item.key);
-		}
-		else 
-		{
-			head.next = current.next;
-			this.insert(item, current.item.key);
-		}
-		head = current;
+    while (current.next != null)
+    {
+        if (key < current.key)
+        {
+            current.item.key = key;
+        }
+        else if (key == current.key)
+        {
+            this.deleteMin();
+            this.insert(item, current.item.key);
+        }
+        else
+        {
+            head.next = current.next;
+            this.insert(item, current.item.key);
+        }
+        head = current;
         current = current.next;
-	}
+    }
 }

@@ -82,7 +82,7 @@ function PQNode(item, key)
  */
 function isEmptyImpl()
 {
-    this.pq.isEmpty();
+   return this.pq.isEmpty();
 }
 //-------------------------------------------------------------------------
 /**

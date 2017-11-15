@@ -690,7 +690,8 @@ function incidentEdgeImpl()
 
 //---------------------------------------
 /**
-	 Implement Dijkstra's algorithms on graph and evaluate the length of shortest path from source node to end node, and the next to last vertex in path.
+	 Implement Dijkstra's algorithms on graph and evaluate the length of shortest path from source node to end node, 
+	 and the next to last vertex in path.
 
 	 
  */

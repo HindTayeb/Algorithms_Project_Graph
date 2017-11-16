@@ -87,17 +87,47 @@ function isEmptyImpl()
 //-------------------------------------------------------------------------
 /**
  * method to delete item has highest priority.
- * @author Sahar Ashmawi
+ * @author Sahar Ashmawi 
+ * @author Hend Tayeb
  * @returns item has highest priority.
  */
 function deleteMinImpl()
 {
-    var item;
-    if (!this.isEmpty())
-    {
-        item = this.pq.delete_first();
+    if(!this.isEmpty())
+    {   // temp to traverse the queue
+    	var temp = this.pq.first, 
+    	minKey = Infinity, 
+    	minNode = null, 
+    	deleteNode = null;
+        
+    	//search for minimum node 
+    	while(temp != null)
+    	{   
+    		if(temp.item.prior < minKey)
+    		{
+    			minKey = temp.item.prior;
+    			minNode = temp.item;
+    		}
+    		temp = temp.next;
+    	}
+    	//store minimum node
+    	deleteNode = minNode;
+    	
+        //delete minimum node
+    	if(this.pq.first.item == minNode)
+    	{
+    		deleteNode = this.pq.delete_first().item;
+    	}else
+    	{
+    		temp = this.pq.first;
+    		while(temp.next.item != minNode)
+    		{
+    			temp = temp.next;
+    		}
+    		temp.next = temp.next.next;
+    	}
+    return 	deleteNode;
     }
-    return item;
 }
 //-------------------------------------------------------------------------
 /**
@@ -119,11 +149,12 @@ function insertImpl(item, key)
  */
 function decreaseImpl(item, key)
 {
+    //search for the node to be updated
    var temp = this.pq.first;
     while(temp.next != null)
     {
     	if(temp.item.item.label == item.label)
-    	{
+    	{   //update the priority 
     		temp.item.prior = key;
     		break;
     	}

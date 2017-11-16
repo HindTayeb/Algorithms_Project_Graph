@@ -108,35 +108,7 @@ function deleteMinImpl()
  */
 function insertImpl(item, key)
 {
-    var newItem = new LNode(item);
-    var current = this.pq.first; // first node.
-
-    // the insert item has three cases:
-    // - the list is empty, insert item in first node.
-    if (this.isEmpty())
-    {
-        this.pq.insert(item);
-    }
-    // - the item has high priority.
-    else if (item.key < current.item.key)
-    {
-        newItem.next = current;
-        this.pq.first = newItem;
-    }
-    // - the item has low priority.
-    else
-    {
-        while (current.next != null)
-        {
-            if (item.key < current.next.item.key)
-            {
-                break;
-            }
-            current = current.next;
-        }
-        newItem.next = current.next;
-        current.next = newItem;
-    }
+     this.pq.insert(new PQNode(item, key));
 }
 //-------------------------------------------------------------------------
 /**

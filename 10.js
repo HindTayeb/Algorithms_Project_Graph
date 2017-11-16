@@ -690,6 +690,15 @@ function incidentEdgeImpl()
 	}
 	return e;
  }
+ /** 
+@methodOf Graph
+@author Wejdan Aljedani
+in a prim method, we uses vertices of graph and incidents edges for vertex to find minimum edges(which has high priority).
+uses {@link #incidentEdge}method of vertex :uses to get incident edge for vertex.
+uses {@link #insert} method of priority queue:uses to insert edge with it's weight
+uses {@link #deleteMin} method of priority queue:uses to delete edge from priority queue
+@returns {object[]} return edge tree in order which has high priority(minimum weight).
+*/
 function primImpl2()
  {
 	 var vertexT = []; //vertex tree

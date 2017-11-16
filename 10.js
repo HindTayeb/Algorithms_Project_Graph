@@ -18,7 +18,7 @@ function main_graph()
 	var g = new Graph();
 
 	// set graph properties
-	g.label = "Exercise 8.4: 7 (Levitin, 3rd edition)";
+	g.label = "Exercise 9.2: 1b (Levitin, 3rd edition)";
 	
 	// use global input arrays _v and _e to initialize its internal data structures
 	g.readGraph(_v, _e);

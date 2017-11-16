@@ -1,47 +1,48 @@
-<!--
+<!-- 
     CPCS-324 Algorithms and Data Structures 2
     A better caller HTML page
-    2017, Dr. Muhammad Al-Hashimi
+    2016, Dr. Muhammad Al-Hashimi
 
 -->
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-    	<title>KAU CPCS-324 - Better Caller</title>
+<head>
+	<title>KAU CPCS-324 - Better Caller</title>
+	
+	<!--
+		similar to includes in C/C++ and Java, files which
+		contain Javascript code can be loaded in addition to the 
+		main code module
+	
+	-->
+	
+	<!-- link (include) support code modules section -->
+	
+    <script type="text/javascript" src="linklist.js"></script>
+    <script type="text/javascript" src="queue.js"></script>
+    <script type="text/javascript" src="pqueue.js"></script>
+    
+    <!-- load main graph implementation module section -->
+    
+    <script type="text/javascript" src="10.js"></script>
+    
+    <!-- load input graph .js file section -->
+    
+    <script type="text/javascript" src="exercise9_2_1b.js"></script>
+    
+</head>
 
-    	<!--
-    		similar to includes in C/C++ and Java, files which
-    		contain Javascript code can be loaded in addition to the
-    		main code module
+<body>
+	
+	<h1>Better Javascript Caller - main_graph()</h1>
 
-    	-->
+	<script type="text/javascript">
+		
+		main_graph();
+    
+    </script>
 
-    	<!-- link (=include) support code modules section -->
+</body>
 
-        <script type="text/javascript" src="linklist.js"></script>
-        <script type="text/javascript" src="queue.js"></script>
-		<script type="text/javascript" src="pqueue.js"></script>
-
-        <!-- load main graph implementation module section -->
-
-        <script type="text/javascript" src=" "></script>
-
-        <!-- load input graph .js file section -->
-
-        <script type="text/javascript" src="102"></script>
-
-    </head>
-
-    <body>
-
-    	<h1>Better Javascript Caller - main_graph()</h1>
-
-    	<script type="text/javascript">
-
-    		main_graph();
-
-        </script>
-
-    </body>
 </html>

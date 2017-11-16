@@ -147,26 +147,14 @@ function insertImpl(item, key)
  */
 function decreaseImpl(item, key)
 {
-    var head = null;
-    var current = this.pq.first; // first node.
-
-    while (current.next != null)
+   var temp = this.pq.first;
+    while(temp.next != null)
     {
-        if (key < current.key)
-        {
-            current.item.key = key;
-        }
-        else if (key == current.key)
-        {
-            this.deleteMin();
-            this.insert(item, current.item.key);
-        }
-        else
-        {
-            head.next = current.next;
-            this.insert(item, current.item.key);
-        }
-        head = current;
-        current = current.next;
+    	if(temp.item.item.label == item.label)
+    	{
+    		temp.item.prior = key;
+    		break;
+    	}
+    	temp = temp.next;
     }
 }

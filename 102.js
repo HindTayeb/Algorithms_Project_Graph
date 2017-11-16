@@ -724,7 +724,7 @@ for (var i = 1; i < this.nv; i++)
 		}while(this.vert[edge_Min.item.vertex_i].visit);//check if vertex is visited  repeat to delete next edge which has high priority(minimum weight) 
 		vertexT[vertexT.length] = edge_Min; //set edge which has minimum weight to vertex tree in last index
 		 //update edge tree (insert minimum edge which has vertex id and parent id)
-		 var edge={vertex_i: edge_Min.dataitem.vertex_i,parent_i:edge_Min.dataitem.parent_i};
+		 var edge={vertex_i: edge_Min.item.vertex_i,parent_i:edge_Min.item.parent_i};
 	 	 EdgeT[i]={edge};
 		 this.vert[edge_Min.item.vertex_i].visit = true; //update vertex(target vertex) in minimum edge as visited	
 			//get all incidentEdge for vertex(target vertex) 		
@@ -732,7 +732,7 @@ for (var i = 1; i < this.nv; i++)
 			for(var j=0;j<inci_Edge.length;j++){
 				//if incidentEdge for vertex(target vertex) not visited then insert this edge to the priority queue with information(vertex id,parent id ,weight between parent and vertex).
 				if(!inci_Edge[j].visit){
-					var edge={vertex_i:inci_Edge[j].adjVert,parent_i:edge_Min.dataitem.vertex_i};//insert edge to priority queue.
+					var edge={vertex_i:inci_Edge[j].adjVert,parent_i:edge_Min.item.vertex_i};//insert edge to priority queue.
 				PQ.insert(edge,inci_Edge[j].edgeWeight);//insert edge and weight to priority Queue 
 			}
 	}

@@ -54,7 +54,8 @@ function main_graph()
 	if (g.digraph == false && g.weighted)
 	{
 		document.writeln("<br>","MST by Prim2 (linear PQ)","<br>");
-		print_edges(g);
+		print_edges(g);	
+	}
 }
 // -----------------------------------------------------------------------
 

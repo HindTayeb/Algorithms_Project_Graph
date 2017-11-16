@@ -19,7 +19,7 @@ function main_graph()
 
 	// set graph properties
 	g.label = "Exercise 8.4: 7 (Levitin, 3rd edition)";
-	//g.digraph = true;
+	
 	// use global input arrays _v and _e to initialize its internal data structures
 	g.readGraph(_v, _e);
 

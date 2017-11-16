@@ -50,10 +50,12 @@ function main_graph()
 
 	document.write("<br>Distance matrix: <br>");
 	printMatrix(g.D);
-
+	//if Graph undirected and weighted
+	if (g.digraph == false && g.weighted)
+	{
+		document.writeln("<br>","MST by Prim2 (linear PQ)","<br>");
+		print_edges(g);
 }
-
-
 // -----------------------------------------------------------------------
 
 function Vertex(v)
@@ -782,4 +784,18 @@ return EdgeT;//return edges which has minimum weight
 
 	 }
  }
+function print_edges(g){
+	for (var i = 0; i < g.prim().length; i++)
+	{
+		document.writeln("(", g.prim()[i].edge.parent_i,",",g.prim()[i].edge.vertex_i,")");
+		
+		if(i<g.prim().length-1){
+			document.writeln(",");
+		}
+		else{
+			document.writeln(".", "<br>");
+		}
+	}
+}
+}
  

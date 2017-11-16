@@ -50,10 +50,13 @@ function main_graph()
 
 	document.write("<br>Distance matrix: <br>");
 	printMatrix(g.D);
-
+	//if Graph undirected and weighted
+	if (g.digraph == false && g.weighted)
+	{
+		document.writeln("<br>","MST by Prim2 (linear PQ)","<br>");
+		print_edges(g);	
+	}
 }
-
-
 // -----------------------------------------------------------------------
 
 function Vertex(v)
@@ -687,8 +690,13 @@ function incidentEdgeImpl()
 	}
 	return e;
  }
+<<<<<<< HEAD
  //-------------------------------------
  function primImpl2()
+=======
+//--------------------------------------
+function primImpl2()
+>>>>>>> 4d79b38cd86ad335262acb8ccaf5f23c3935335a
  {
 	 var vertexT = []; //vertex tree
 	 var EdgeT = []; //edge tree
@@ -737,6 +745,10 @@ for (var i = 1; i < this.nv; i++)
 }
 return EdgeT;//return edges which has minimum weight 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4d79b38cd86ad335262acb8ccaf5f23c3935335a
 //---------------------------------------
 /**
 	 Implement Dijkstra's algorithms on graph and evaluate the length of shortest path from source node to end node, 
@@ -781,4 +793,18 @@ return EdgeT;//return edges which has minimum weight
 
 	 }
  }
+function print_edges(g){
+	for (var i = 0; i < g.prim().length; i++)
+	{
+		document.writeln("(", g.prim()[i].edge.parent_i,",",g.prim()[i].edge.vertex_i,")");
+		
+		if(i<g.prim().length-1){
+			document.writeln(",");
+		}
+		else{
+			document.writeln(".", "<br>");
+		}
+	}
+}
+}
  

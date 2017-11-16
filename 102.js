@@ -19,7 +19,7 @@ function main_graph()
 
 	// set graph properties
 	g.label = "Exercise 8.4: 7 (Levitin, 3rd edition)";
-	g.digraph = true;
+	//g.digraph = true;
 	// use global input arrays _v and _e to initialize its internal data structures
 	g.readGraph(_v, _e);
 
@@ -157,7 +157,7 @@ function Graph()
 
 	// --------------------
 	// student methods next (actual functions in student code sections)
-	this.prim = primImpl;
+	this.prim = primImpl2;
 
 	// transitive closure package (requirements in line comments)
 

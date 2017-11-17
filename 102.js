@@ -773,9 +773,9 @@ return EdgeT;//return edges which has minimum weight
 	 var pq = new PQueue();
 	 
 	//initiate queue nodes  
-	 for(vertex in this.vert)
+	 for(var i = 0; i < this.vert.length; i++)
 	 {
-		 pq.enqueue(Infinity,null);
+		 pq.insert(this.vert[i],Infinity);
 		 this.spt.push({p:null, d:Infinity});
 	 }
 	 
@@ -786,10 +786,11 @@ return EdgeT;//return edges which has minimum weight
 	 
 	 for(var i = 0; i < this.vert.length; i++)
 	 {
-		 //pick fring vertex with min distance
+		 //pick fring vertex with min distance u star
 		 var us = pq.deleteMin();
 		 this.Vt.push(us.item);
 		 var adj = us.item.incidentEdge();
+		 
 		 //update fring set after adding us
 		 for(var j = 0; j < adj.length; j++)
 		 {

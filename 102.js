@@ -61,7 +61,7 @@ function main_graph()
 	document.write("<br>Shortest paths tree from vertex 0: <br>");
 	for(var i = 0; i < g.spt.length; i++)
 	{
-		document.write(g.spt[i].d," ",g.spt[i].p.label+g.Vt[i].label, "<br>");
+		document.writeln(g.spt[i].distance,"(", g.spt[i].parent.label,",",g.spt[i].vtree.label,")");
 	}
 }
 // -----------------------------------------------------------------------
@@ -161,8 +161,7 @@ function Graph()
 	this.D = []; // distance matrix by floyed
 	this.dfsTCMatrix = [];
 	this.spt = []; //shortest path treee
-	this.Vt = [];  // Vertex tree
-
+	
 
 	// --------------------
 	// student methods next (actual functions in student code sections)
@@ -776,29 +775,29 @@ return EdgeT;//return edges which has minimum weight
 	 for(var i = 0; i < this.vert.length; i++)
 	 {
 		 pq.insert(this.vert[i],Infinity);
-		 this.spt.push({p:null, d:Infinity});
+		  this.spt.push({parent:null,vtree:null, distance:Infinity});
 	 }
 	 
 	 //start with source vertex
 	 pq.decrease(this.vert[0],0);
-	 this.spt[0].p = this.vert[0];
-	 this.spt[0].d = 0;
+	 this.spt[0].parent = this.vert[0];
+	 this.spt[0].distance = 0;
 	 
 	 for(var i = 0; i < this.vert.length; i++)
 	 {
 		 //pick fring vertex with min distance u star
 		 var us = pq.deleteMin();
-		 this.Vt.push(us.item);
+		 this.spt[i].vtree = us.item;
 		 var adj = us.item.incidentEdge();
 		 
 		 //update fring set after adding us
 		 for(var j = 0; j < adj.length; j++)
 		 {
-			 if((us.prior+adj[j].edgeWeight) <= this.spt[adj[j].adjVert].d)
+			 if((us.prior+adj[j].edgeWeight) <= this.spt[adj[j].adjVert].distance)
 				 {
-					this.spt[adj[j].adjVert].d = us.prior+adj[j].edgeWeight;
-					this.spt[adj[j].adjVert].p = us.item;
-					pq.decrease(this.vert[adj[j].adjVert],this.spt[adj[j].adjVert].d);
+					this.spt[adj[j].adjVert].distance = us.prior+adj[j].edgeWeight;
+					this.spt[adj[j].adjVert].parent = us.item;
+					pq.decrease(this.vert[adj[j].adjVert],this.spt[adj[j].adjVert].distance);
 				 }
 		 }
 	 }

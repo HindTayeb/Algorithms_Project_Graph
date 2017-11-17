@@ -153,11 +153,14 @@ function Graph()
 	this.R = []; // TC matrix by warshall
 	this.D = []; // distance matrix by floyed
 	this.dfsTCMatrix = [];
+	this.spt = []; //shortest path treee
+	this.Vt = [];  // Vertex tree
 
 
 	// --------------------
 	// student methods next (actual functions in student code sections)
 	this.prim = primImpl2;
+	this.shortestPathTree = dijkstraImpl; 
 
 	// transitive closure package (requirements in line comments)
 
@@ -761,37 +764,46 @@ return EdgeT;//return edges which has minimum weight
  {
 	 //initialize queue
 	 var pq = new PQueue();
-	 var distance =[], pervVertex, Vt = [];
+	 
 	//initiate queue nodes  
 	 for(vertex in this.vert)
 	 {
 		 pq.enqueue(Infinity,null);
-		 distance.push(Infinity);
+		 this.spt.push({p:null, d:Infinity});
 	 }
+	 
 	 //start with source vertex
 	 pq.decrease(this.vert[0],0);
-	 distance[0] = 0;
-	 for(var i = 0; i < this.vert.length-1; i++)
+	 this.spt[0].p = this.vert[0];
+	 this.spt[0].d = 0;
+	 
+	 for(var i = 0; i < this.vert.length; i++)
 	 {
 		 //pick fring vertex with min distance
 		 var us = pq.deleteMin();
-		 Vt.push(us.item);
+		 this.Vt.push(us.item);
 		 var adj = us.item.incidentEdge();
 		 //update fring set after adding us
 		 for(var j = 0; j < adj.length; j++)
 		 {
-			 if(!include(adj[j].adjVert,Vt))
-			 {
-				 if((distance[j]+adj[j].edgeWeight) < distance[j+1])
+			 if((us.prior+adj[j].edgeWeight) <= this.spt[adj[j].adjVert].d)
 				 {
-					distance[j+1] = distance[j]+adj[j].edgeWeight;
-					pq.decrease(adj[j],distance[j+1]);
+					this.spt[adj[j].adjVert].d = us.prior+adj[j].edgeWeight;
+					this.spt[adj[j].adjVert].p = us.item;
+					pq.decrease(this.vert[adj[j].adjVert],this.spt[adj[j].adjVert].d);
 				 }
-			 }
 		 }
-
 	 }
  }
+
+//---------------------------------------
+/**
+	 Output to display edges given in input.
+	 @author Wejdan Aljedani
+	 
+	 @param {var} Graph
+ */
+
 function print_edges(g){
 	for (var i = 0; i < g.prim().length; i++)
 	{

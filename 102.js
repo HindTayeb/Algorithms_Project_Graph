@@ -56,6 +56,13 @@ function main_graph()
 		document.writeln("<br>","MST by Prim2 (linear PQ)","<br>");
 		print_edges(g);	
 	}
+	
+	g.shortestPathTree();
+	document.write("<br>Shortest paths tree from vertex 0: <br>");
+	for(var i = 0; i < g.spt.length; i++)
+	{
+		document.write(g.spt[i].d," ",g.spt[i].p.label+g.Vt[i].label, "<br>");
+	}
 }
 // -----------------------------------------------------------------------
 

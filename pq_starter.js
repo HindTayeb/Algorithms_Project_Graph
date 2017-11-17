@@ -151,12 +151,13 @@ function decreaseImpl(item, key)
 {
     //search for the node to be updated
    var temp = this.pq.first;
-    while(temp.next != null)
+    while(temp != null)
     {
     	if(temp.item.item.label == item.label)
     	{   //update the priority 
-    		temp.item.prior = key;
-    		break;
+    		if(temp.item.prior > key)
+    			temp.item.prior = key;
+    			break;
     	}
     	temp = temp.next;
     }

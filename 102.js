@@ -38,16 +38,8 @@ function main_graph()
 	
 	
 	g.dfsTC();
-	document.write("TC matrix by DFS: <br>");
+	document.write("Transitive closure <br>");
 	printMatrix(g.dfsTCMatrix);
-
-	g.makeAdjMatrix();
-	g.warshallFloyd();
-	document.write("<br>TC matrix by Warshall-Floyd: <br>");
-	printMatrix(g.R);
-
-	document.write("<br>DAG: ",g.isDAG(),"<br>");
-
 	document.write("<br>Distance matrix: <br>");
 	printMatrix(g.D);
 	//if Graph undirected and weighted
@@ -56,7 +48,6 @@ function main_graph()
 		document.writeln("<br>","MST by Prim2 (linear PQ)","<br>");
 		print_edges(g);	
 	}
-	
 	g.shortestPathTree();
 	document.write("<br>Shortest paths tree from vertex 0: <br>");
 	for(var i = 0; i < g.spt.length; i++)

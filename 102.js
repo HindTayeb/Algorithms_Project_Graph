@@ -36,11 +36,11 @@ function main_graph()
 	g.topoSearch("bfs");
 	document.write("bfs_order: ", g.bfs_out, "<br><br>");
 	
-	
 	g.dfsTC();
 	document.write("Transitive closure <br>");
 	printMatrix(g.dfsTCMatrix);
 	document.write("<br>Distance matrix: <br>");
+	g.warshallFloyd();
 	printMatrix(g.D);
 	//if Graph undirected and weighted
 	if (g.digraph == false && g.weighted)

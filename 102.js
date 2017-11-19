@@ -194,7 +194,6 @@ function Graph()
 
 /**
 	check if path exists between vertices v_i, v_j in digraph. return true if exists and false if not.
-
 	@methodOf Graph#
 	@param {number} v_i source vertex id
 	@param {number} v_j target vertex id
@@ -210,7 +209,6 @@ function hasPathImpl(v_i, v_j)
 
 /**
 	compare between v_i, v_j distances in weighted graph and returns the shortest path among them.
-
 	@methodOf Graph#
 	@param {number} v_i source vertex id
 	@param {number} v_j target vertex id
@@ -226,7 +224,6 @@ function shortestPathImpl(v_i, v_j)
 
 /**
 	Check if graph is directed acyclic graph.
-
 	@methodOf Graph#
 	@return {boolean} true if acyclic digraph
  */
@@ -247,7 +244,6 @@ function isDAGImpl()
 /**
 	Generate TC matrix and distance matrix representation of graph based on warshall's and floyd's algorithms.
 	 TC matrix if unweighted graph, and distance matrix if weighted graph.
-
 	@methodOf Graph#
  */
 
@@ -367,29 +363,29 @@ function better_input(v,e)
 function topoSearchImpl(fun)
 {
 
-// mark all vertices unvisited
-for (var i = 0; i < this.nv; i++)
-{
-	this.vert[i].visit = false;
-}
-
-// traverse unvisited connected component
-for (i = 0; i < this.nv; i++)
-{
-	if (!this.vert[i].visit)
+	// mark all vertices unvisite
+	for (var i = 0; i < this.nv; i++)
 	{
-		this.connectedComp++;
-		if (fun == "dfs")
-		{
-			this.dfs(i);
-		}
-		else if (fun == "bfs")
-		{
-			this.bfs(i);
-		}
-
+		this.vert[i].visit = false;
 	}
-}
+
+    // traverse unvisited connected component
+    for (i = 0; i < this.nv; i++)
+   {
+	   if (!this.vert[i].visit)
+	    {
+		  this.connectedComp++;
+		    if (fun == "dfs")
+		    {
+			this.dfs(i);
+		    }
+		    else if (fun == "bfs")
+		    {
+               this.bfs(i);
+		    }
+
+	    }
+    }
 }
 
 //---------------------------------------
@@ -568,9 +564,7 @@ function vertexInfoImpl()
 //---------------------------------------
 /**
  	Output to display matrix given in input.
-
  	@param {var} matrix any matrix of objects
-
  */
 
 function printMatrix(matrix)
@@ -589,7 +583,6 @@ function printMatrix(matrix)
 //---------------------------------------
 /**
  	return a copy from the matrix given in input based on it is type, weither tc matrix or distance matrix.
-
  	@param {var} matrix any matrix of objects
 	 @param {string} type tc or distance
 	 @return {number} a copy of matrix
@@ -644,7 +637,6 @@ function include(item, array)
 //---------------------------------------
 /**
 	 Get information about edges incident to vertex. Information is returned in an array of special output objects.
-
 	 @return {object[]} Array of custom objects containing edge information, in input order by default.
  */
 
@@ -661,7 +653,6 @@ function incidentEdgeImpl()
 //---------------------------------------
 /**
 	 Implement first version of prims algorithms on graph and return the minimum spanning tree for it.
-
 	 @return {object[]} Array of custom objects containing minimum spanning tree of graph, in input order by default.
 */
 
@@ -709,7 +700,6 @@ function primImpl()
 
 
 /** 
-
 @author Wejdan Aljedani
 @method #Graph
 in a prim method, we uses vertices of graph and incidents edges for vertex to find minimum edges(which has high priority).
@@ -751,14 +741,14 @@ function primImpl2()
 		//get and delete edge which has high priority in priority queue
 		 edge_Min=PQ.deleteMin();
 		}while(this.vert[edge_Min.item.vertex_i].visit);//check if vertex is visited  repeat to delete next edge which has high priority(minimum weight) 
-		vertexT[vertexT.length] = edge_Min.item.vertex_i; //set edge which has minimum weight to vertex tree in last index
-		 //update edge tree (insert minimum edge which has vertex id and parent id)
-		 var edge={vertex_i: edge_Min.item.vertex_i,parent_i:edge_Min.item.parent_i};
-	 	 EdgeT[i]={edge};
-		 this.vert[edge_Min.item.vertex_i].visit = true; //update vertex(target vertex) in minimum edge as visited	
-			//get all incidentEdge for vertex(target vertex) 		
-                 var inci_Edge=this.vert[edge_Min.item.vertex_i].incidentEdge();
-			for(var j=0;j<inci_Edge.length;j++)
+		    vertexT[vertexT.length] = edge_Min.item.vertex_i; //set edge which has minimum weight to vertex tree in last index
+		    //update edge tree (insert minimum edge which has vertex id and parent id)
+		    var edge={vertex_i: edge_Min.item.vertex_i,parent_i:edge_Min.item.parent_i};
+	 	    EdgeT[i]={edge};
+		    this.vert[edge_Min.item.vertex_i].visit = true; //update vertex(target vertex) in minimum edge as visited	
+		    //get all incidentEdge for vertex(target vertex) 		
+            var inci_Edge=this.vert[edge_Min.item.vertex_i].incidentEdge();
+		    for(var j=0;j<inci_Edge.length;j++)
 			{
 				//if incidentEdge for vertex(target vertex) not visited then insert this edge to the priority queue with information(vertex id,parent id ,weight between parent and vertex).
 				if(!inci_Edge[j].visit)
@@ -766,9 +756,9 @@ function primImpl2()
 				var edge={vertex_i:inci_Edge[j].adjVert,parent_i:edge_Min.item.vertex_i};//insert edge to priority queue.
 				PQ.insert(edge,inci_Edge[j].edgeWeight);//insert edge and weight to priority Queue 
 			    
-			        }
-	                }
-     }
+			    }
+	        }
+    }
 return EdgeT;//return edges which has minimum weight 
 }
 //---------------------------------------
@@ -841,4 +831,3 @@ function print_edges(g)
 		}
 	}
 }
- 

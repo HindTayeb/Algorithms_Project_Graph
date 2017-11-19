@@ -36,12 +36,19 @@ function main_graph()
 	g.topoSearch("bfs");
 	document.write("bfs_order: ", g.bfs_out, "<br><br>");
 	
+	
 	g.dfsTC();
-	document.write("Transitive closure <br>");
+	document.write(" Transitive closure : <br>");
 	printMatrix(g.dfsTCMatrix);
-	document.write("<br>Distance matrix: <br>");
+
 	g.makeAdjMatrix();
 	g.warshallFloyd();
+	// document.write("<br>TC matrix by Warshall-Floyd: <br>");
+	//printMatrix(g.R);
+
+	// document.write("<br>DAG: ",g.isDAG(),"<br>");
+
+	document.write("<br>Distance matrix: <br>");
 	printMatrix(g.D);
 	//if Graph undirected and weighted
 	if (g.digraph == false && g.weighted)
@@ -49,6 +56,7 @@ function main_graph()
 		document.writeln("<br>","MST by Prim2 (linear PQ)","<br>");
 		print_edges(g);	
 	}
+	
 	g.shortestPathTree();
 	document.write("<br>Shortest paths tree from vertex 0: <br>");
 	for(var i = 0; i < g.spt.length; i++)
@@ -113,7 +121,11 @@ function Edge(vert_i,weight,label)
 
 
 // -----------------------------------------------------------------------
-
+/**
+ * @constructor 
+ * 
+ * 
+ */
 function Graph()
 {
 	// published docs section (ref. assignment page)
@@ -445,17 +457,17 @@ function makeAdjMatrixImpl2()
 		var v = this.vert[i];
 		this.adjMatrix[i] = [];
 
-	for (var j = 0; j < this.nv; j++)
-	{
-		this.adjMatrix[i][j] = {tc:0, dist:0};
-	}
+	   for (var j = 0; j < this.nv; j++)
+	   {
+		 this.adjMatrix[i][j] = {tc:0, dist:0};
+	   }
 
-	var w = [], incEd = v.incidentEdge();
-	for(x in incEd) w.push(incEd[x].adjVert);
+	   var w = [], incEd = v.incidentEdge();
+	   for(x in incEd) w.push(incEd[x].adjVert);
 
 		// filling part for TCmatrix warshall-floyd method (if unweighted)
 		for (j = 0; j < w.length; j++)
-		{// for each vertex, set 1 for each adjacency
+		{  // for each vertex, set 1 for each adjacency
 			this.adjMatrix[i][w[j]].tc = 1;
 		}
 
@@ -463,17 +475,18 @@ function makeAdjMatrixImpl2()
 		var adjList = v.incidentEdge();
 		var k = 0;
 		for (j = 0; j < this.nv; j++)
-		{// for each vertex, set edge weight for each adjacency
+		{   // for each vertex, set edge weight for each adjacency
 			if(include(j, w))
 			{
 				this.adjMatrix[i][j].dist = adjList[k++].edgeWeight;
-			}else if (!include(j, w) && i != j)
+			}
+			else if (!include(j, w) && i != j)
 			{
 				this.adjMatrix[i][j].dist = Infinity;
 			}
 			
 		}
-}
+    }
 
 
 }
@@ -487,7 +500,8 @@ function isConnectedImpl()
 //---------------------------------------
 function reportConnectivity()
 {
-	switch(this.connectedComp){
+	switch(this.connectedComp) 
+	{
 		case 0: return "no connectivity info";
 		case 1: return "CONNECTED";
 		default: return "DISCONNECTED ", this.connectedComp;
@@ -498,13 +512,13 @@ function reportConnectivity()
 function print_graphImpl()
 {
     document.write("<p>GRAPH {",this.label, "} ", this.weighted?"WEIGHTED, ":"", this.digraph?"":"UN", "DIRECTED - ",
-		this.nv, " VERTICES, ", this.ne, " EDGES:</p><p>",this.connectInfo(),"</p>");
+	this.nv, " VERTICES, ", this.ne, " EDGES:</p><p>",this.connectInfo(),"</p>");
 
-   	// list vertices
+   	    // list vertices
     	for (var i=0; i < this.nv; i++)
      	{
      		var v = this.vert[i];
-   		document.write( "VERTEX: ", i, v.vertexInfo(), "<br>");
+   		    document.write( "VERTEX: ", i, v.vertexInfo(), "<br>");
 		}
 
 
@@ -599,6 +613,7 @@ function copyMatrix(matrix, type)
 			distMatrix[i][j] = matrix[i][j].dist;
 		}
 	}
+	
 	if(type == "tc")
 		return TCMatrix;
 	else (type == "distance")
@@ -648,33 +663,33 @@ function incidentEdgeImpl()
 	 Implement first version of prims algorithms on graph and return the minimum spanning tree for it.
 
 	 @return {object[]} Array of custom objects containing minimum spanning tree of graph, in input order by default.
- */
+*/
 
- function primImpl()
- {
+function primImpl()
+{
 	// mark all vertices unvisited
     for (var i = 0; i < this.nv; i++)
         this.vert[i].visit = false;
 
-				// v for vertices, e for edges, and w for adjacent vertices.
-		 	 // initialize v with first vertex, w with first vertex's adjacent, and minWeight with first vertex weight.
-		 	var v = [this.vert[0]];
-		 	var e = [];
-		 	var w;
-		 	var minWeight = Infinity;
-		 	var nextVert;  //next vertex to traverse.
+		// v for vertices, e for edges, and w for adjacent vertices.
+		// initialize v with first vertex, w with first vertex's adjacent, and minWeight with first vertex weight.
+		var v = [this.vert[0]];
+		var e = [];
+		var w;
+		var minWeight = Infinity;
+		var nextVert;  //next vertex to traverse.
 
-			//mark first vertex as visited
-			v[0].visit = true;
+		//mark first vertex as visited
+		v[0].visit = true;
 
 		//start from second vertex since first one already in v tree.
 		//check the edges from pervious vertices
-	for(var i = 1; i < this.vert.length; i++)
-	{//check the edges from current vertex
+		for(var i = 1; i < this.vert.length; i++)
+		{      //check the edges from current vertex
 		for(var j = 0; j < v.length; j++)
 		{
-			w = v[j].incidentEdge();
-			for(var k = 0; k < w.length; k++)
+			 w = v[j].incidentEdge();
+			 for(var k = 0; k < w.length; k++)
 			{
 				if(!this.vert[w[k].adjVert].visit && w[k].edgeWeight <= minWeight)
 				{
@@ -682,18 +697,21 @@ function incidentEdgeImpl()
 				}
 			}
 		}
-		minWeight = Infinity;
-		v.push(this.vert[nextVert.adjVert]);
-		e.push(nextVert);
+		  minWeight = Infinity;
+		  v.push(this.vert[nextVert.adjVert]);
+		  e.push(nextVert);
 
-		//mark next visit vertex as visited
-		v[i].visit = true;
-	}
+		  //mark next visit vertex as visited
+		  v[i].visit = true;
+		}
 	return e;
- }
- /** 
-@methodOf Graph
+}
+
+
+/** 
+
 @author Wejdan Aljedani
+@method #Graph
 in a prim method, we uses vertices of graph and incidents edges for vertex to find minimum edges(which has high priority).
 uses {@link #incidentEdge}method of vertex :uses to get incident edge for vertex.
 uses {@link #insert} method of priority queue:uses to insert edge with it's weight in priority queue
@@ -701,15 +719,15 @@ uses {@link #deleteMin} method of priority queue:uses to delete edge from priori
 @returns {object[]} return edge tree in order which has high priority(minimum weight).
 */
 function primImpl2()
- {
-	 var vertexT = []; //vertex tree
-	 var EdgeT = []; //edge tree
-	 var edge_Min;//edge which has high priority (minimum weight)
-	 //mark all verecess are not visited.
-	 for (var i = 0; i < this.nv; i++)
-	 {
-		 this.vert[i].visit = false;
-	 }
+{
+	var vertexT = []; //vertex tree
+	var EdgeT = []; //edge tree
+	var edge_Min;//edge which has high priority (minimum weight)
+	//mark all verecess are not visited.
+	for (var i = 0; i < this.nv; i++)
+	{
+		this.vert[i].visit = false;
+	}
 	    var PQ=new PQueue();//initialize priority queue 
 		//initiate vertex tree with the first vertex
 		 vertexT[0] = this.vert[0]; //set first vertex in vertex tree 
@@ -726,27 +744,31 @@ function primImpl2()
 	var edge={vertex_i:inci_Edge[i].adjVert,parent_i:0};//each vertex has 2 fileds 1-vertex id and parent id
 		PQ.insert(edge,inci_Edge[i].edgeWeight);//insert edge to priority Queue 
 	}
-for (var i = 1; i < this.nv; i++)
+	
+	for (var i = 1; i < this.nv; i++)
     {
-		do{
+	 do {
 		//get and delete edge which has high priority in priority queue
 		 edge_Min=PQ.deleteMin();
 		}while(this.vert[edge_Min.item.vertex_i].visit);//check if vertex is visited  repeat to delete next edge which has high priority(minimum weight) 
-		vertexT[vertexT.length] = edge_Min; //set edge which has minimum weight to vertex tree in last index
+		vertexT[vertexT.length] = edge_Min.item.vertex_i; //set edge which has minimum weight to vertex tree in last index
 		 //update edge tree (insert minimum edge which has vertex id and parent id)
 		 var edge={vertex_i: edge_Min.item.vertex_i,parent_i:edge_Min.item.parent_i};
 	 	 EdgeT[i]={edge};
 		 this.vert[edge_Min.item.vertex_i].visit = true; //update vertex(target vertex) in minimum edge as visited	
 			//get all incidentEdge for vertex(target vertex) 		
-            var inci_Edge=this.vert[edge_Min.item.vertex_i].incidentEdge();
-			for(var j=0;j<inci_Edge.length;j++){
+                 var inci_Edge=this.vert[edge_Min.item.vertex_i].incidentEdge();
+			for(var j=0;j<inci_Edge.length;j++)
+			{
 				//if incidentEdge for vertex(target vertex) not visited then insert this edge to the priority queue with information(vertex id,parent id ,weight between parent and vertex).
-				if(!inci_Edge[j].visit){
-					var edge={vertex_i:inci_Edge[j].adjVert,parent_i:edge_Min.item.vertex_i};//insert edge to priority queue.
+				if(!inci_Edge[j].visit)
+				{
+				var edge={vertex_i:inci_Edge[j].adjVert,parent_i:edge_Min.item.vertex_i};//insert edge to priority queue.
 				PQ.insert(edge,inci_Edge[j].edgeWeight);//insert edge and weight to priority Queue 
-			}
-	}
-}
+			    
+			        }
+	                }
+     }
 return EdgeT;//return edges which has minimum weight 
 }
 //---------------------------------------
@@ -756,44 +778,44 @@ return EdgeT;//return edges which has minimum weight
 	 
 	 @memberOf #Graph
 	 @author Hend Tayeb
- */
+*/
  
- function dijkstraImpl()
- {
-	 //initialize queue
-	 var pq = new PQueue();
+function dijkstraImpl()
+{
+	//initialize queue
+	var pq = new PQueue();
 	 
 	//initiate queue nodes  
-	 for(var i = 0; i < this.vert.length; i++)
-	 {
-		 pq.insert(this.vert[i],Infinity);
-		  this.spt.push({parent:null,vtree:null, distance:Infinity});
-	 }
+	for(var i = 0; i < this.vert.length; i++)
+	{
+		pq.insert(this.vert[i],Infinity);
+		this.spt.push({parent:null,vtree:null, distance:Infinity});
+	}
 	 
-	 //start with source vertex
-	 pq.decrease(this.vert[0],0);
-	 this.spt[0].parent = this.vert[0];
-	 this.spt[0].distance = 0;
+	//start with source vertex
+	pq.decrease(this.vert[0],0);
+	this.spt[0].parent = this.vert[0];
+	this.spt[0].distance = 0;
 	 
-	 for(var i = 0; i < this.vert.length; i++)
-	 {
-		 //pick fring vertex with min distance u star
-		 var us = pq.deleteMin();
-		 this.spt[i].vtree = us.item;
-		 var adj = us.item.incidentEdge();
+	for(var i = 0; i < this.vert.length; i++)
+	{
+		//pick fring vertex with min distance u star
+		var us = pq.deleteMin();
+		this.spt[i].vtree = us.item;
+		var adj = us.item.incidentEdge();
 		 
-		 //update fring set after adding us
-		 for(var j = 0; j < adj.length; j++)
-		 {
-			 if((us.prior+adj[j].edgeWeight) <= this.spt[adj[j].adjVert].distance)
-				 {
-					this.spt[adj[j].adjVert].distance = us.prior+adj[j].edgeWeight;
-					this.spt[adj[j].adjVert].parent = us.item;
-					pq.decrease(this.vert[adj[j].adjVert],this.spt[adj[j].adjVert].distance);
-				 }
-		 }
-	 }
- }
+		//update fring set after adding us
+		for(var j = 0; j < adj.length; j++)
+		{
+			if((us.prior+adj[j].edgeWeight) <= this.spt[adj[j].adjVert].distance)
+			{
+				this.spt[adj[j].adjVert].distance = us.prior+adj[j].edgeWeight;
+				this.spt[adj[j].adjVert].parent = us.item;
+				pq.decrease(this.vert[adj[j].adjVert],this.spt[adj[j].adjVert].distance);
+			}
+		}
+	}
+}
 
 //---------------------------------------
 /**
@@ -801,17 +823,20 @@ return EdgeT;//return edges which has minimum weight
 	 @author Wejdan Aljedani
 	 
 	 @param {var} Graph
- */
+*/
 
-function print_edges(g){
+function print_edges(g)
+{
 	for (var i = 0; i < g.prim().length; i++)
 	{
 		document.writeln("(", g.prim()[i].edge.parent_i,",",g.prim()[i].edge.vertex_i,")");
 		
-		if(i<g.prim().length-1){
+		if(i<g.prim().length-1)
+		{
 			document.writeln(",");
 		}
-		else{
+		else
+		{
 			document.writeln(".", "<br>");
 		}
 	}

@@ -17,7 +17,7 @@
 // how will the PQ ops be implemented?
 // <student fill here>
 // implement priority queue depend on linked list ADT by insert the item with its priority 
-// and delete the highest priority (minimum wait) from queue, except the same priority deleted FIFO.
+// and delete the highest priority (minimum weight) from queue, except the same priority deleted FIFO.
 // we choosed choice that allows priority queue methods to directly process the linked list in some cases,
 // due to its convenience used with short-term and quickly implementation.
 
@@ -34,7 +34,7 @@
 // <student fill here>
 // encapsulation violation for linked list that became aware of the internal details of the items.
 // second Prim’s: 
-// - take all incident edge of vertex in queue and take out them by deleteMin() that searches which edge has minimum wait,
+// - take all incident edge of vertex in queue and take out them by deleteMin() that searches which edge has minimum weight,
 //   instead of save the min in each iteration and compare with it.
 // - efficiency is O(n^2) rather than O(n^3).
 // -----------------------------------------------------------------------

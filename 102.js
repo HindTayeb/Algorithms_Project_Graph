@@ -40,6 +40,7 @@ function main_graph()
 	document.write("Transitive closure <br>");
 	printMatrix(g.dfsTCMatrix);
 	document.write("<br>Distance matrix: <br>");
+	g.makeAdjMatrix();
 	g.warshallFloyd();
 	printMatrix(g.D);
 	//if Graph undirected and weighted

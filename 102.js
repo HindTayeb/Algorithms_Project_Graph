@@ -741,7 +741,7 @@ function primImpl2()
 		//get and delete edge which has high priority in priority queue
 		 edge_Min=PQ.deleteMin();
 		}while(this.vert[edge_Min.item.vertex_i].visit);//check if vertex is visited  repeat to delete next edge which has high priority(minimum weight) 
-		    vertexT[vertexT.length] = edge_Min.item.vertex_i; //set edge which has minimum weight to vertex tree in last index
+		    vertexT[vertexT.length] = edge_Min.item.vertex_i; //set target vertex to vertex tree in last index
 		    //update edge tree (insert minimum edge which has vertex id and parent id)
 		    var edge={vertex_i: edge_Min.item.vertex_i,parent_i:edge_Min.item.parent_i};
 	 	    EdgeT[i]={edge};

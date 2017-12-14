@@ -26,44 +26,53 @@ function main_graph()
 	// use print_graph() method to check graph
 	g.printGraph();
 
-	// perform depth-first search and output stored result
-	g.topoSearch("dfs");
-	document.write("<br>dfs_push: ", g.dfs_push, "<br><br>");
-	// report connectivity status if available
-	document.write(g.connectInfo(), "<br><br>");
-
-	// perform depth-first search and output stored result
-	g.topoSearch("bfs");
-	document.write("bfs_order: ", g.bfs_out, "<br><br>");
-	
-	
-	g.dfsTC();
-	document.write(" Transitive closure : <br>");
-	printMatrix(g.dfsTCMatrix);
-
-	g.makeAdjMatrix();
-	g.warshallFloyd();
-	// document.write("<br>TC matrix by Warshall-Floyd: <br>");
-	//printMatrix(g.R);
-
-	// document.write("<br>DAG: ",g.isDAG(),"<br>");
-
-	document.write("<br>Distance matrix: <br>");
-	printMatrix(g.D);
-	//if Graph undirected and weighted
-	if (g.digraph == false && g.weighted)
-	{
-		document.writeln("<br>","MST by Prim2 (linear PQ)","<br>");
-		print_edges(g);	
-	}
-	
-	g.shortestPathTree();
-	document.write("<br>Shortest paths tree from vertex 0: <br>");
-	for(var i = 0; i < g.spt.length; i++)
-	{
-		document.writeln(g.spt[i].distance,"(", g.spt[i].parent.label,",",g.spt[i].vtree.label,")");
-	}
 }
+
+// -----------------------------------------------------------------------
+// network object initial requirements: support Edmonds-Karp maximum flow algorithm
+
+function FNetwork()   
+{
+
+	// --------------------
+	// student property fields next
+	
+	
+	// --------------------
+	// student methods next; implementing functions in student code sections
+	
+	// note following are required method names, you are not required to use all of them
+	// you are required to use the name if you choose to have the method
+
+	// accessor methods: getters
+	this.edgeFlow                  // return (get) flow for argument edge i,j
+	this.edgeCap                   // return capacity for argument edge i,j
+	this.srcVertex                 // return source vertex (or its id, you decide)
+	this.sinkVertex                // return sink vertex (or its id, you decide)
+	this.getFlowVal                // return current flow *value* in network
+	this.getFlow                   // return current flow as array of {u,v,flow} objects
+	this.inFlow                    // return incoming flow for argument vertex
+	this.outFlow                   // return outgoing flow for argument vertex
+	
+	// accessor methods: setters
+	this.setEdgeFlow               // set flow on argument edge (i,j)
+	this.setFlow                   // set flow to argument (including 0) for all edges 
+	this.initFlow                  // reset flow to 0 for all edges
+	this.setLabel                  // set network label (hide Graph code)
+	
+	
+	// other possibly useful method names
+	this.isSrc                     // true if argument is source vertex of network      
+	this.isSink                    // true if argument is sink vertex of network
+	this.isEdge                    // true if argument vertices form an edge ALERT belong to Graph() but leave as test to students
+	this.isBackwardEdge            // true if argument vertices form a backward edge
+	this.readNetwork               // input reader method
+	this.printNetwork              // output network including current flow (reference output of final project
+	this.edmondsKarp               // implement the Edmonds-Karp algorithm for maximum flow
+	
+
+}
+
 // -----------------------------------------------------------------------
 
 function Vertex(v)
@@ -183,138 +192,8 @@ function Graph()
 }
 
 
-// -----------------------------------------------------------------------
-// functions used by methods of Graph and subsidiary objects
-
-// -----------------------------------------------------------------------
-// begin student code section
-// -----------------------------------------------------------------------
-
-// transitive closure package
-
-/**
-	check if path exists between vertices v_i, v_j in digraph. return true if exists and false if not.
-	@methodOf Graph#
-	@param {number} v_i source vertex id
-	@param {number} v_j target vertex id
-	@return {boolean} true if path exists
- */
-
-function hasPathImpl(v_i, v_j)
-{
-	return v_i && v_j;
-}
-
-// --------------------
-
-/**
-	compare between v_i, v_j distances in weighted graph and returns the shortest path among them.
-	@methodOf Graph#
-	@param {number} v_i source vertex id
-	@param {number} v_j target vertex id
-	@return {number} distance of shortest path
- */
-
-function shortestPathImpl(v_i, v_j)
-{
-	return (v_i <= v_j)? v_i: v_j;
-}
-
-// --------------------
-
-/**
-	Check if graph is directed acyclic graph.
-	@methodOf Graph#
-	@return {boolean} true if acyclic digraph
- */
-
-function isDAGImpl()
-{
-	var dag = true;
-	for(var i = 0; i < this.nv; i++)
-	{
-		if(this.R[i][i] == 1)
-			dag = false;
-	}
-	return dag;
-}
-
-// --------------------
-
-/**
-	Generate TC matrix and distance matrix representation of graph based on warshall's and floyd's algorithms.
-	 TC matrix if unweighted graph, and distance matrix if weighted graph.
-	@methodOf Graph#
- */
-
-function warshallFloydImpl()
-{
-	this.R = copyMatrix(this.adjMatrix, "tc");
-	this.D = copyMatrix(this.adjMatrix, "distance");
-	var k, i, j;
-
-	for(k = 0; k < this.nv; k++)
-	{
-		for(i = 0; i < this.nv; i++)
-		{
-			for(j = 0; j < this.nv; j++)
-			{
-				this.R[i][j] = (this.R[i][j] == 1)? this.R[i][j]:this.hasPath(this.R[i][k],this.R[k][j]);
-				this.D[i][j] = this.shortestPath(this.D[i][j],this.D[i][k]+this.D[k][j]);
-			}
-		}
-	}
-
-}
-
-// --------------------
-
-/**
-	Generate TC matrix representation of graph based on DFS algorithm
-	.
-	@methodOf Graph#
- */
-
-function dfsTCImpl()
-{
-	for (i = 0; i < this.nv; i++)
-	{
-		var v = this.vert[i];
-
-		for (j = 0; j < this.nv; j++)
-		{
-			this.vert[j].visit = false;
-		}
-
-		this.dfsTCMatrix[i] = [];
-		for (k = 0; k < this.nv; k++)
-		{
-			this.dfsTCMatrix[i][k] = 0;
-		}
-
-		var w = [], incEd = v.incidentEdge();
-		for(x in incEd) w.push(incEd[x].adjVert);
-		for (k = 0; k < w.length; k++)
-		{
-			this.dfs(w[k]);
-		}
-
-		for (k = 0; k < this.nv; k++)
-		{
-			if (this.vert[k].visit)
-			{
-				this.dfsTCMatrix[i][k] = 1;
-			}
-		}
-	}
-}
 
 
-
-// -----------------------------------------------------------------------
-// published docs section (ref. assignment page)
-// for this section, strip line comments (leave outline)
-// no JSDOC comments in this section
 // -----------------------------------------------------------------------
 
 function better_input(v,e)

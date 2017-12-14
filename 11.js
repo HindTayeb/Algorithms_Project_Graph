@@ -57,7 +57,7 @@ function FNetwork()
 	// accessor methods: setters
 	this.setEdgeFlow               // set flow on argument edge (i,j)
 	this.setFlow                   // set flow to argument (including 0) for all edges 
-	this.initFlow                  // reset flow to 0 for all edges
+	this.initFlow = initFlowImpl;                  // reset flow to 0 for all edges
 	this.setLabel                  // set network label (hide Graph code)
 	
 	
@@ -169,13 +169,33 @@ function Graph()
 
 }
 
+// -----------------------------------------------------------------------
+//		FNetwork Object Methods
+// -----------------------------------------------------------------------
 
 // -----------------------------------------------------------------------
 function edmondsKarpImpl()
-{
+{	
+	var q = new Queue();
 
+	//assign xij = 0 to every edge (i, j) in the network
+	this.initFlow();
 }
 
+// -----------------------------------------------------------------------
+function initFlowImpl()
+{
+    for (var i = 0; i < this.network.nv; i++)
+    {
+        var v = this.network.vert[i];
+        var w = v.adjacent.traverse();
+
+        for (var j = 0; j < w.length; j++)
+        {
+            w[j].weight2 = 0;
+        }
+    }
+} 
 
 // -----------------------------------------------------------------------
 function better_input(v,e)

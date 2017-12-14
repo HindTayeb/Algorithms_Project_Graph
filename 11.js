@@ -36,7 +36,7 @@ function FNetwork()
 
 	// --------------------
 	// student property fields next
-	
+	this.network = new Graph();
 	
 	// --------------------
 	// student methods next; implementing functions in student code sections

@@ -167,28 +167,6 @@ function Graph()
 	this.connectInfo = reportConnectivity;
 	this.topoSearch = topoSearchImpl;
 
-
-	// --------------------
-	// student property fields next
-	this.R = []; // TC matrix by warshall
-	this.D = []; // distance matrix by floyed
-	this.dfsTCMatrix = [];
-	this.spt = []; //shortest path treee
-	
-
-	// --------------------
-	// student methods next (actual functions in student code sections)
-	this.prim = primImpl2;
-	this.shortestPathTree = dijkstraImpl; 
-
-	// transitive closure package (requirements in line comments)
-
-	this.hasPath = hasPathImpl;    // boolean, true if path exists between vertices v_i, v_j in digraph
-	this.shortestPath = shortestPathImpl;      // return distance of shortest path between v_i, v_j in weighted graph
-	this.isDAG = isDAGImpl;                    // boolean, true if acyclic digraph
-	this.warshallFloyd = warshallFloydImpl;    // inserts .tc field in adjacency matrix if digraph, and .dist if weighted
-	this.dfsTC = dfsTCImpl;                    // return TC matrix for digraph based on a dfs
-
 }
 
 
@@ -371,23 +349,6 @@ function makeAdjMatrixImpl2()
 }
 
 //---------------------------------------
-function isConnectedImpl()
-{
-	return this.connectedComp == 1;
-}
-
-//---------------------------------------
-function reportConnectivity()
-{
-	switch(this.connectedComp) 
-	{
-		case 0: return "no connectivity info";
-		case 1: return "CONNECTED";
-		default: return "DISCONNECTED ", this.connectedComp;
-	}
-}
-
-//---------------------------------------
 function print_graphImpl()
 {
     document.write("<p>GRAPH {",this.label, "} ", this.weighted?"WEIGHTED, ":"", this.digraph?"":"UN", "DIRECTED - ",
@@ -461,40 +422,6 @@ function printMatrix(matrix)
 		}
 		document.write("<br>");
 	}
-}
-
-//---------------------------------------
-/**
- 	return a copy from the matrix given in input based on it is type, weither tc matrix or distance matrix.
- 	@param {var} matrix any matrix of objects
-	 @param {string} type tc or distance
-	 @return {number} a copy of matrix
- */
-
-function copyMatrix(matrix, type)
-{
-	var TCMatrix = [], distMatrix = [];
-
-	for (var i = 0; i < matrix[0].length; i++)
-	{
-		TCMatrix[i] = [];
-		distMatrix[i] = [];
-	}
-
-	for(var i = 0; i < matrix[0].length; i++)
-	{
-		for(var j = 0; j < matrix[0].length; j++)
-		{
-			TCMatrix[i][j] = matrix[i][j].tc;
-			distMatrix[i][j] = matrix[i][j].dist;
-		}
-	}
-	
-	if(type == "tc")
-		return TCMatrix;
-	else (type == "distance")
-		return distMatrix
-
 }
 
 //---------------------------------------

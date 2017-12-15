@@ -349,6 +349,321 @@ function print_graphImpl()
 }
 
 // -----------------------------------------------------------------------
+// transitive closure package
+// -----------------------------------------------------------------------
+
+// --------------------
+/** check if path exists between vertices v_i, v_j in digraph. return true if exists and false if not.
+	@methodOf Graph#
+	@param {number} v_i source vertex id
+	@param {number} v_j target vertex id
+	@return {boolean} true if path exists
+ */
+
+function hasPathImpl(v_i, v_j)
+{
+	return v_i && v_j;
+}
+
+// --------------------
+
+/** compare between v_i, v_j distances in weighted graph and returns the shortest path among them.
+	@methodOf Graph#
+	@param {number} v_i source vertex id
+	@param {number} v_j target vertex id
+	@return {number} distance of shortest path
+ */
+
+function shortestPathImpl(v_i, v_j)
+{
+	return (v_i <= v_j)? v_i: v_j;
+}
+
+// --------------------
+
+/** Check if graph is directed acyclic graph.
+	@methodOf Graph#
+	@return {boolean} true if acyclic digraph
+ */
+
+function isDAGImpl()
+{
+	var dag = true;
+	for(var i = 0; i < this.nv; i++)
+	{
+		if(this.R[i][i] == 1)
+			dag = false;
+	}
+	return dag;
+}
+
+// --------------------
+
+/** Generate TC matrix and distance matrix representation of graph based on warshall's and floyd's algorithms.
+	 TC matrix if unweighted graph, and distance matrix if weighted graph.
+	@methodOf Graph#
+ */
+
+function warshallFloydImpl()
+{
+	this.R = copyMatrix(this.adjMatrix, "tc");
+	this.D = copyMatrix(this.adjMatrix, "distance");
+	var k, i, j;
+
+	for(k = 0; k < this.nv; k++)
+	{
+		for(i = 0; i < this.nv; i++)
+		{
+			for(j = 0; j < this.nv; j++)
+			{
+				this.R[i][j] = (this.R[i][j] == 1)? this.R[i][j]:this.hasPath(this.R[i][k],this.R[k][j]);
+				this.D[i][j] = this.shortestPath(this.D[i][j],this.D[i][k]+this.D[k][j]);
+			}
+		}
+	}
+
+}
+
+// --------------------
+
+/** Generate TC matrix representation of graph based on DFS algorithm.
+	@methodOf Graph#
+ */
+
+function dfsTCImpl()
+{
+	for (i = 0; i < this.nv; i++)
+	{
+		var v = this.vert[i];
+
+		for (j = 0; j < this.nv; j++)
+		{
+			this.vert[j].visit = false;
+		}
+
+		this.dfsTCMatrix[i] = [];
+		for (k = 0; k < this.nv; k++)
+		{
+			this.dfsTCMatrix[i][k] = 0;
+		}
+
+		var w = [], incEd = v.incidentEdge();
+		for(x in incEd) w.push(incEd[x].adjVert);
+		for (k = 0; k < w.length; k++)
+		{
+			this.dfs(w[k]);
+		}
+
+		for (k = 0; k < this.nv; k++)
+		{
+			if (this.vert[k].visit)
+			{
+				this.dfsTCMatrix[i][k] = 1;
+			}
+		}
+	}
+}
+
+//---------------------------------------
+function isConnectedImpl()
+{
+	return this.connectedComp == 1;
+}
+
+//---------------------------------------
+function reportConnectivity()
+{
+	switch(this.connectedComp) 
+	{
+		case 0: return "no connectivity info";
+		case 1: return "CONNECTED";
+		default: return "DISCONNECTED ", this.connectedComp;
+	}
+}
+
+//---------------------------------------
+/**
+	 Implement first version of prims algorithms on graph and return the minimum spanning tree for it.
+	 @return {object[]} Array of custom objects containing minimum spanning tree of graph, in input order by default.
+*/
+
+function primImpl()
+{
+	// mark all vertices unvisited
+    for (var i = 0; i < this.nv; i++)
+        this.vert[i].visit = false;
+
+		// v for vertices, e for edges, and w for adjacent vertices.
+		// initialize v with first vertex, w with first vertex's adjacent, and minWeight with first vertex weight.
+		var v = [this.vert[0]];
+		var e = [];
+		var w;
+		var minWeight = Infinity;
+		var nextVert;  //next vertex to traverse.
+
+		//mark first vertex as visited
+		v[0].visit = true;
+
+		//start from second vertex since first one already in v tree.
+		//check the edges from pervious vertices
+		for(var i = 1; i < this.vert.length; i++)
+		{      //check the edges from current vertex
+		for(var j = 0; j < v.length; j++)
+		{
+			 w = v[j].incidentEdge();
+			 for(var k = 0; k < w.length; k++)
+			{
+				if(!this.vert[w[k].adjVert].visit && w[k].edgeWeight <= minWeight)
+				{
+					minWeight = w[k].edgeWeight; nextVert=w[k];
+				}
+			}
+		}
+		  minWeight = Infinity;
+		  v.push(this.vert[nextVert.adjVert]);
+		  e.push(nextVert);
+
+		  //mark next visit vertex as visited
+		  v[i].visit = true;
+		}
+	return e;
+}
+
+//---------------------------------------
+/** 
+@author Wejdan Aljedani
+@method #Graph
+in a prim method, we uses vertices of graph and incidents edges for vertex to find minimum edges(which has high priority).
+uses {@link #incidentEdge}method of vertex :uses to get incident edge for vertex.
+uses {@link #insert} method of priority queue:uses to insert edge with it's weight in priority queue
+uses {@link #deleteMin} method of priority queue:uses to delete edge from priority queue
+@returns {object[]} return edge tree in order which has high priority(minimum weight).
+*/
+function primImpl2()
+{
+	var vertexT = []; //vertex tree
+	var EdgeT = []; //edge tree
+	var edge_Min;//edge which has high priority (minimum weight)
+	//mark all verecess are not visited.
+	for (var i = 0; i < this.nv; i++)
+	{
+		this.vert[i].visit = false;
+	}
+	    var PQ=new PQueue();//initialize priority queue 
+		//initiate vertex tree with the first vertex
+		 vertexT[0] = this.vert[0]; //set first vertex in vertex tree 
+		 this.vert[0].visit=true;//set first vertex as visited
+		  //insert source vertex to edge tree and source vertex does not have source vertex(parent)
+		  var edge={vertex_i:0,parent_i:"-"}; 
+		  EdgeT[0]={edge};//insert first edge to edge tree
+        //get incedent edge for first vertex
+	     var inci_Edge = vertexT[0].incidentEdge();
+		 var w=inci_Edge.length;//get length of incidentEdge for first vertex 
+        //for each incidentEdge for first vertex  insert it to priority queue
+	for(var i=0;i<w;i++)
+	{
+	var edge={vertex_i:inci_Edge[i].adjVert,parent_i:0};//each vertex has 2 fileds 1-vertex id and parent id
+		PQ.insert(edge,inci_Edge[i].edgeWeight);//insert edge to priority Queue 
+	}
+	
+	for (var i = 1; i < this.nv; i++)
+    {
+	 do {
+		//get and delete edge which has high priority in priority queue
+		 edge_Min=PQ.deleteMin();
+		}while(this.vert[edge_Min.item.vertex_i].visit);//check if vertex is visited  repeat to delete next edge which has high priority(minimum weight) 
+		    vertexT[vertexT.length] = edge_Min.item.vertex_i; //set target vertex to vertex tree in last index
+		    //update edge tree (insert minimum edge which has vertex id and parent id)
+		    var edge={vertex_i: edge_Min.item.vertex_i,parent_i:edge_Min.item.parent_i};
+	 	    EdgeT[i]={edge};
+		    this.vert[edge_Min.item.vertex_i].visit = true; //update vertex(target vertex) in minimum edge as visited	
+		    //get all incidentEdge for vertex(target vertex) 		
+            var inci_Edge=this.vert[edge_Min.item.vertex_i].incidentEdge();
+		    for(var j=0;j<inci_Edge.length;j++)
+			{
+				//if incidentEdge for vertex(target vertex) not visited then insert this edge to the priority queue with information(vertex id,parent id ,weight between parent and vertex).
+				if(!inci_Edge[j].visit)
+				{
+				var edge={vertex_i:inci_Edge[j].adjVert,parent_i:edge_Min.item.vertex_i};//insert edge to priority queue.
+				PQ.insert(edge,inci_Edge[j].edgeWeight);//insert edge and weight to priority Queue 
+			    
+			    }
+	        }
+    }
+return EdgeT;//return edges which has minimum weight 
+}
+
+//---------------------------------------
+/**
+	 Implement Dijkstra's algorithms on graph and evaluate the length of shortest path from source node to end node, 
+	 and the next to last vertex in path.
+	 
+	 @memberOf #Graph
+	 @author Hend Tayeb
+*/
+ 
+function dijkstraImpl()
+{
+	//initialize queue
+	var pq = new PQueue();
+	 
+	//initiate queue nodes  
+	for(var i = 0; i < this.vert.length; i++)
+	{
+		pq.insert(this.vert[i],Infinity);
+		this.spt.push({parent:null,vtree:null, distance:Infinity});
+	}
+	 
+	//start with source vertex
+	pq.decrease(this.vert[0],0);
+	this.spt[0].parent = this.vert[0];
+	this.spt[0].distance = 0;
+	 
+	for(var i = 0; i < this.vert.length; i++)
+	{
+		//pick fring vertex with min distance u star
+		var us = pq.deleteMin();
+		this.spt[i].vtree = us.item;
+		var adj = us.item.incidentEdge();
+		 
+		//update fring set after adding us
+		for(var j = 0; j < adj.length; j++)
+		{
+			if((us.prior+adj[j].edgeWeight) <= this.spt[adj[j].adjVert].distance)
+			{
+				this.spt[adj[j].adjVert].distance = us.prior+adj[j].edgeWeight;
+				this.spt[adj[j].adjVert].parent = us.item;
+				pq.decrease(this.vert[adj[j].adjVert],this.spt[adj[j].adjVert].distance);
+			}
+		}
+	}
+}
+
+//---------------------------------------
+/**
+	 Output to display edges given in input.
+	 @author Wejdan Aljedani
+	 @param {var} Graph
+*/
+
+function print_edges(g)
+{
+	for (var i = 0; i < g.prim().length; i++)
+	{
+		document.writeln("(", g.prim()[i].edge.parent_i,",",g.prim()[i].edge.vertex_i,")");
+		
+		if(i<g.prim().length-1)
+		{
+			document.writeln(",");
+		}
+		else
+		{
+			document.writeln(".", "<br>");
+		}
+	}
+}
+
+// -----------------------------------------------------------------------
 // 				FNetwork methods
 // -----------------------------------------------------------------------
 

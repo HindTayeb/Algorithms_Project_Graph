@@ -75,6 +75,8 @@ function Vertex(v)
 	this.label = v.label;
 	this.visit = false;
 	this.adjacent = new List();
+	this.netLabel = 0;
+	this.netParent = 0;
 
 	// member methods
 
@@ -832,8 +834,8 @@ function incidentEdgeImpl()
  */
 function setVertLabelImpl(l, p)
 {
-	this.label = l;
-	this.parent = p;
+	this.netLabel = l;
+	this.netParent = p;
 }
 
 // -----------------------------------------------------------------------

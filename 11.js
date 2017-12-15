@@ -9,11 +9,39 @@
 
 
 var _v = [], _e = [];   // note naming convention in upload guide
-
+var _v2 = [], _e2 = [];   
 
 // -----------------------------------------------------------------------
 function main_graph()
 {
+    //create a new NetworkFlow object
+    var fn1 = new FNetwork();
+    fn1.network.label = "GRAPH {Figure 10.4 1(Levitin, 3rd edition)} ";
+    // use global arrays
+    fn1.readNetwork(_v, _e);
+    // use print_graph() method to check graph
+    fn1.network.printGraph();
+    // print the netwok graph befor calling edmondskarp method
+    fn1.printNetwork();
+    // call edmondskarp method
+    fn1.edmondsKarp();
+    // print the network after calling edmonds-karp method
+    fn1.printNetwork();
+    //EX 10.2: 2b
+    //create a new NetworkFlow object
+    var fn2 = new FNetwork();
+    f2.network.label = "GRAPH {Figure 10.2: 2b (Levitin, 3rd edition)} ";
+    // use global input arrays
+    fn2.readNetwork(_v2, _e2);
+    // use print_graph() method to check graph
+    fn2.network.print_graph();
+    // print the netwok graph befor calling edmondskarp method
+    fn2.printNetwork();
+    // call edmondskarp method
+    fn2.edmondsKarp();
+    // print the network after calling edmonds-karp method
+    fn2.printNetwork();
+
 
 }
 
@@ -45,7 +73,7 @@ function FNetwork()
 	this.outFlow                   // return outgoing flow for argument vertex
 	
 	// accessor methods: setters
-	this.setEdgeFlow =              // set flow on argument edge (i,j)
+	this.setEdgeFlow = setEdgeFlowImpl;             // set flow on argument edge (i,j)
 	this.setFlow                   // set flow to argument (including 0) for all edges 
 	this.initFlow = initFlowImpl;                  // reset flow to 0 for all edges
 	this.setLabel = setLabelImpl;                  // set network label (hide Graph code)
@@ -56,8 +84,8 @@ function FNetwork()
 	this.isSink                    // true if argument is sink vertex of network
 	this.isEdge = isEdgeImpl;                    // true if argument vertices form an edge ALERT belong to Graph() but leave as test to students
 	this.isBackwardEdge = isBackwardEdgeImpl;            // true if argument vertices form a backward edge
-	this.readNetwork               // input reader method
-	this.printNetwork              // output network including current flow (reference output of final project
+	this.readNetwork =readNetworkImpl;              // input reader method
+	this.printNetwork=printNetworkImpl;              // output network including current flow (reference output of final project
 	this.edmondsKarp = edmondsKarpImpl;             // implement the Edmonds-Karp algorithm for maximum flow
 	
 
@@ -182,6 +210,47 @@ function Graph()
 // -----------------------------------------------------------------------
 // 				FNetwork methods
 // -----------------------------------------------------------------------
+
+/*
+
+*/
+function readNetworkImpl(v, e)
+{
+    // set graph properties
+    this.network.weighted = true;
+    this.network.digraph = true;
+
+    // use global input arrays _v and _e to initialize its internal data structures
+    this.network.readGraph(v, e);
+    this.network.makeAdjMatrix();
+}
+//---------------------------------------
+/**
+
+*/
+function printNetworkImpl()
+{
+    // for each vertx 
+    for (var i = 0; i < this.network.nv; i++)
+    {
+        // fetch the vertex and get the adjacent list
+        var v = this.network.vert[i];
+        var e = v.adjacent.traverse();
+        document.write(i, " {", v.label, "}");
+
+        //print the adjacent vertices
+        for (var j = 0; j < e.length; j++)
+        {
+            document.write(" ", i, "-", e[j].target_v, " ", e[j].weight, " ", e[j].flow);
+            document.write(j == e.length - 1 ? "" : ",");
+        }
+
+        document.write("<br>");
+    }
+    document.write("<br>");
+
+
+}
 
 //---------------------------------------
 /**

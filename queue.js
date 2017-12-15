@@ -57,3 +57,9 @@ function dequeue()
 {
 	return this.head.delete_first();
 }
+
+//--------------------
+function front()
+{
+	return this.head.firts.item;
+}

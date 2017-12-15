@@ -155,6 +155,25 @@ function Graph()
 	this.isConnected = isConnectedImpl;
 	this.connectInfo = reportConnectivity;
 	this.topoSearch = topoSearchImpl;
+	
+	// --------------------
+	// student property fields next
+	this.R = []; // TC matrix by warshall
+	this.D = []; // distance matrix by floyed
+	this.dfsTCMatrix = [];
+	this.spt = []; //shortest path treee
+	
+	// --------------------
+	// student methods next (actual functions in student code sections)
+	this.prim = primImpl2;
+	this.shortestPathTree = dijkstraImpl; 
+
+	// transitive closure package (requirements in line comments)
+	this.hasPath = hasPathImpl;    // boolean, true if path exists between vertices v_i, v_j in digraph
+	this.shortestPath = shortestPathImpl;      // return distance of shortest path between v_i, v_j in weighted graph
+	this.isDAG = isDAGImpl;                    // boolean, true if acyclic digraph
+	this.warshallFloyd = warshallFloydImpl;    // inserts .tc field in adjacency matrix if digraph, and .dist if weighted
+	this.dfsTC = dfsTCImpl;                    // return TC matrix for digraph based on a dfs
 
 }
 

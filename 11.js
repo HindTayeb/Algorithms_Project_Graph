@@ -185,6 +185,57 @@ function Graph()
 // -----------------------------------------------------------------------
 
 //---------------------------------------
+/**
+ * 
+ * @param {integer} i 
+ * @param {integer} j 
+ * @returns {integer} the edge flow
+ */
+function edgeFlowImpl(i,j)
+{	
+	var verti = this.network.getVertex(i);
+	var iAdj = verti.incidentEdge();
+	for(var i in iAdj)
+	{
+		if(i.adjVert == j)
+		{
+			return i.edgeFlow;
+		}
+	}
+}
+//---------------------------------------
+/**
+ * 
+ * @param {integer} i 
+ * @param {integer} j 
+ * @returns {integer} the edge capacity
+ */
+function edgeCapImpl(i,j)
+{
+	var verti = this.network.getVertex(i);
+	var iAdj = verti.incidentEdge();
+	for(var i in iAdj)
+	{
+		if(i.adjVert == j)
+		{
+			return i.edgeWeight;
+		}
+	}
+}
+//---------------------------------------
+/**
+ * set the network's label name
+ * @param {string} l 
+ * @author Hend Tayeb
+ */
+function setLabelImpl(l)
+{
+	this.network.label = l;
+}
+//---------------------------------------
+/**
+ * assign flow = 0 to every edge (i, j) in the network
+ */
 function initFlowImpl()
 {
     for (var i = 0; i < this.network.nv; i++)

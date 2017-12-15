@@ -124,8 +124,6 @@ function Edge(vert_i,weight,label)
 // -----------------------------------------------------------------------
 /**
  * @constructor 
- * 
- * 
  */
 function Graph()
 {
@@ -334,6 +332,12 @@ while(!q.isEmpty())
 				}
 			}
 		}
+	}
+	var sink = this.sinkVertex();
+	if(this.network.getVertex(sink).isLabeled())
+	{// augment along the augmentation path found
+		var j = sink; // start at the sink and move backwards using second labels
+			
 	}
   }
 }

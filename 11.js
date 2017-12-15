@@ -202,7 +202,7 @@ function initFlowImpl()
  */
 function srcVertexImpl()
 {
-	return this.network[0];
+	return 0;
 }
 
 //---------------------------------------
@@ -211,7 +211,7 @@ function srcVertexImpl()
  */
 function sinkVertexImpl()
 {
-	return this.network[this.network.nv-1];
+	return this.network.nv-1;
 }
 
 //---------------------------------------
@@ -244,18 +244,20 @@ this.initFlow();
 
 //label the source with ∞,− and add the source to the empty queue Q
 var source = this.srcVertex;
-	
-q.enqueue(this.vert[0]);
+this.network[source].setLabel(Infinity, "-");	
+q.enqueue(source);
 
 while(!q.isEmpty())
-{
-	var source = q.Front();
+{	var i = q.front();
 	q.dequeue();
-	for()
-	{
-		
+
+	for (var j = 0; j < this.network.length-1; j++)
+	{ //Forward Edges
+		if(isEdge(i, j))
+		{
+			if()
+		}
 	}
-}
 }
 
 // -----------------------------------------------------------------------

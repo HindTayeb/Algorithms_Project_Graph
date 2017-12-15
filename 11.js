@@ -14,17 +14,6 @@ var _v = [], _e = [];   // note naming convention in upload guide
 // -----------------------------------------------------------------------
 function main_graph()
 {
-    // create a graph (default undirected)
-	var g = new Graph();
-
-	// set graph properties
-	g.label = "Exercise 9.2: 1b (Levitin, 3rd edition)";
-	
-	// use global input arrays _v and _e to initialize its internal data structures
-	g.readGraph(_v, _e);
-
-	// use print_graph() method to check graph
-	g.printGraph();
 
 }
 

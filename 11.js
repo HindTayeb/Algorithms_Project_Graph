@@ -36,8 +36,8 @@ function FNetwork()
 	// accessor methods: getters
 	this.edgeFlow                  // return (get) flow for argument edge i,j
 	this.edgeCap                   // return capacity for argument edge i,j
-	this.srcVertex                 // return source vertex (or its id, you decide)
-	this.sinkVertex                // return sink vertex (or its id, you decide)
+	this.srcVertex = srcVertexImpl;               // return source vertex (or its id, you decide)
+	this.sinkVertex = sinkVertexImpl;               // return sink vertex (or its id, you decide)
 	this.getFlowVal                // return current flow *value* in network
 	this.getFlow                   // return current flow as array of {u,v,flow} objects
 	this.inFlow                    // return incoming flow for argument vertex
@@ -57,7 +57,7 @@ function FNetwork()
 	this.isBackwardEdge            // true if argument vertices form a backward edge
 	this.readNetwork               // input reader method
 	this.printNetwork              // output network including current flow (reference output of final project
-	this.edmondsKarp               // implement the Edmonds-Karp algorithm for maximum flow
+	this.edmondsKarp = edmondsKarpImpl;             // implement the Edmonds-Karp algorithm for maximum flow
 	
 
 }

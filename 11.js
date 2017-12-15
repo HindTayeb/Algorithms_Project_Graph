@@ -30,7 +30,7 @@ function main_graph()
     //EX 10.2: 2b
     //create a new NetworkFlow object
     var fn2 = new FNetwork();
-    f2.network.label = "GRAPH {Figure 10.2: 2b (Levitin, 3rd edition)} ";
+    fn2.network.label = "GRAPH {Figure 10.2: 2b (Levitin, 3rd edition)} ";
     // use global input arrays
     fn2.readNetwork(_v2, _e2);
     // use print_graph() method to check graph

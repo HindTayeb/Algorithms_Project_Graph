@@ -29,13 +29,17 @@ function FNetwork()
 	
 	// --------------------
 	// student methods next; implementing functions in student code sections
+	this.network.digraph = false;
+	this.network.weighted = false;
 	
+	this.source=0;
+	this.sink=0;
 	// note following are required method names, you are not required to use all of them
 	// you are required to use the name if you choose to have the method
 
 	// accessor methods: getters
-	this.edgeFlow                  // return (get) flow for argument edge i,j
-	this.edgeCap                   // return capacity for argument edge i,j
+	this.edgeFlow= edgeFlowImpl;                  // return (get) flow for argument edge i,j
+	this.edgeCap =edgeCapImpl;                   // return capacity for argument edge i,j
 	this.srcVertex = srcVertexImpl;               // return source vertex (or its id, you decide)
 	this.sinkVertex = sinkVertexImpl;               // return sink vertex (or its id, you decide)
 	this.getFlowVal                // return current flow *value* in network
@@ -44,7 +48,7 @@ function FNetwork()
 	this.outFlow                   // return outgoing flow for argument vertex
 	
 	// accessor methods: setters
-	this.setEdgeFlow               // set flow on argument edge (i,j)
+	this.setEdgeFlow =              // set flow on argument edge (i,j)
 	this.setFlow                   // set flow to argument (including 0) for all edges 
 	this.initFlow = initFlowImpl;                  // reset flow to 0 for all edges
 	this.setLabel = setLabelImpl;                  // set network label (hide Graph code)
@@ -113,6 +117,7 @@ function Edge(vert_i,weight,label)
 
 	// --------------------
 	// student property fields next
+	this.weight2=0;
 	this.flow = 0;
 
 	// --------------------
@@ -220,6 +225,20 @@ function edgeCapImpl(i,j)
 		}
 	}
 }
+//-------------------------------------
+function setEdgeFlowImpl(i, j, flow)
+{
+    var verti = this.network.vert[i];
+    var adj = verti.adjacent.traverse();
+
+    for (var i = 0; i < adj.length; i++)
+    {
+        if (adj[i].target_v == j)
+            adj[i].weight2 = adj[i].weight2 + flow;
+    }
+}
+
+//---------------------------------------
 //---------------------------------------
 /**
  * set the network's label name

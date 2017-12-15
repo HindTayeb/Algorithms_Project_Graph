@@ -47,14 +47,14 @@ function FNetwork()
 	this.setEdgeFlow               // set flow on argument edge (i,j)
 	this.setFlow                   // set flow to argument (including 0) for all edges 
 	this.initFlow = initFlowImpl;                  // reset flow to 0 for all edges
-	this.setLabel                  // set network label (hide Graph code)
+	this.setLabel = setLabelImpl;                  // set network label (hide Graph code)
 	
 	
 	// other possibly useful method names
 	this.isSrc                     // true if argument is source vertex of network      
 	this.isSink                    // true if argument is sink vertex of network
-	this.isEdge                    // true if argument vertices form an edge ALERT belong to Graph() but leave as test to students
-	this.isBackwardEdge            // true if argument vertices form a backward edge
+	this.isEdge = isEdgeImpl;                    // true if argument vertices form an edge ALERT belong to Graph() but leave as test to students
+	this.isBackwardEdge = isBackwardEdgeImpl;            // true if argument vertices form a backward edge
 	this.readNetwork               // input reader method
 	this.printNetwork              // output network including current flow (reference output of final project
 	this.edmondsKarp = edmondsKarpImpl;             // implement the Edmonds-Karp algorithm for maximum flow
@@ -215,6 +215,25 @@ function sinkVertexImpl()
 }
 
 //---------------------------------------
+/**
+ * @returns {boolean} true if there's an edge between vertices i and j.
+ */
+
+ function isEdgeImpl(i, j)
+ {
+	 return this.network.adjMatrix.dist[i][j] != 0;
+ }
+
+ //---------------------------------------
+/**
+ * @returns {boolean} true if there's an edge between vertices j and i.
+ */
+function isBackwardEdgeImpl()
+{
+	return this.network.adjMatrix.dist[j][i] != 0;
+}
+
+//---------------------------------------
 function edmondsKarpImpl()
 {
 
@@ -224,7 +243,8 @@ var q = new Queue();
 this.initFlow();
 
 //label the source with ∞,− and add the source to the empty queue Q
-
+var source = this.srcVertex;
+	
 q.enqueue(this.vert[0]);
 
 while(!q.isEmpty())

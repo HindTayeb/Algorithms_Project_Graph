@@ -178,6 +178,67 @@ function Graph()
 }
 
 // -----------------------------------------------------------------------
+// 				FNetwork methods
+// -----------------------------------------------------------------------
+
+//---------------------------------------
+function initFlowImpl()
+{
+    for (var i = 0; i < this.network.nv; i++)
+    {
+        var v = this.network.vert[i];
+        var w = v.adjacent.traverse();
+
+        for (var j = 0; j < w.length; j++)
+        {
+            w[j].weight2 = 0;
+        }
+    }
+} 
+
+//---------------------------------------
+/**
+ * @returns {integer} source vertex
+ */
+function srcVertexImpl()
+{
+	return this.network[0];
+}
+
+//---------------------------------------
+/**
+ * @returns {integer} sink vertex
+ */
+function sinkVertexImpl()
+{
+	return this.network[this.network.nv-1];
+}
+
+//---------------------------------------
+function edmondsKarpImpl()
+{
+
+var q = new Queue();
+
+//assign xij = 0 to every edge (i, j) in the network (initialize flow)
+this.initFlow();
+
+//label the source with ∞,− and add the source to the empty queue Q
+
+q.enqueue(this.vert[0]);
+
+while(!q.isEmpty())
+{
+	var source = q.Front();
+	q.dequeue();
+	for()
+	{
+		
+	}
+}
+}
+
+// -----------------------------------------------------------------------
 // 				Graph methods
 // -----------------------------------------------------------------------
 
@@ -682,48 +743,6 @@ function print_edges(g)
 	}
 }
 
-// -----------------------------------------------------------------------
-// 				FNetwork methods
-// -----------------------------------------------------------------------
-
-//---------------------------------------
-function initFlowImpl()
-{
-    for (var i = 0; i < this.network.nv; i++)
-    {
-        var v = this.network.vert[i];
-        var w = v.adjacent.traverse();
-
-        for (var j = 0; j < w.length; j++)
-        {
-            w[j].weight2 = 0;
-        }
-    }
-} 
-
-//---------------------------------------
-function edmondsKarpImpl()
-{
-
-var q = new Queue();
-
-//assign xij = 0 to every edge (i, j) in the network (initialize flow)
-this.initFlow();
-
-//label the source with ∞,− and add the source to the empty queue Q
-
-q.enqueue(this.vert[0]);
-
-while(!q.isEmpty())
-{
-	var source = q.Front();
-	q.dequeue();
-	for()
-	{
-		
-	}
-}
-}
 
 
 // -----------------------------------------------------------------------

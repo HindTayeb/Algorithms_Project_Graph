@@ -159,37 +159,12 @@ function Graph()
 }
 
 // -----------------------------------------------------------------------
-//		FNetwork Object Methods
+// 								Graph methods
 // -----------------------------------------------------------------------
 
-// -----------------------------------------------------------------------
-function edmondsKarpImpl()
-{	
-	var q = new Queue();
-
-	//assign xij = 0 to every edge (i, j) in the network
-	this.initFlow();
-}
-
-// -----------------------------------------------------------------------
-function initFlowImpl()
-{
-    for (var i = 0; i < this.network.nv; i++)
-    {
-        var v = this.network.vert[i];
-        var w = v.adjacent.traverse();
-
-        for (var j = 0; j < w.length; j++)
-        {
-            w[j].weight2 = 0;
-        }
-    }
-} 
-
-// -----------------------------------------------------------------------
 function better_input(v,e)
 {
-	// set number of vertices and edges fields
+// set number of vertices and edges fields
 	this.nv = v.length;
 	this.ne = e.length;
 
@@ -226,7 +201,6 @@ function better_input(v,e)
 	{
 		this.ne = this.ne * 2;
 	}
-
 }
 
 //---------------------------------------
@@ -257,6 +231,7 @@ function topoSearchImpl(fun)
 	    }
     }
 }
+
 
 //---------------------------------------
 function dfsImpl(v_i)
@@ -373,6 +348,54 @@ function print_graphImpl()
 
 }
 
+// -----------------------------------------------------------------------
+// 								FNetwork methods
+// -----------------------------------------------------------------------
+
+//---------------------------------------
+function initFlowImpl()
+{
+    for (var i = 0; i < this.network.nv; i++)
+    {
+        var v = this.network.vert[i];
+        var w = v.adjacent.traverse();
+
+        for (var j = 0; j < w.length; j++)
+        {
+            w[j].weight2 = 0;
+        }
+    }
+} 
+
+//---------------------------------------
+function edmondsKarpImpl()
+{
+
+var q = new Queue();
+
+//assign xij = 0 to every edge (i, j) in the network (initialize flow)
+this.initFlow();
+
+//label the source with ∞,− and add the source to the empty queue Q
+
+q.enqueue(this.vert[0]);
+
+while(!q.isEmpty())
+{
+	var source = q.Front();
+	q.dequeue();
+	for()
+	{
+		
+	}
+}
+}
+
+
+// -----------------------------------------------------------------------
+// 								Vertex methods
+// -----------------------------------------------------------------------
+
 //---------------------------------------
 function insertAdjacentImp(v_i,weight,label)
 {
@@ -410,9 +433,37 @@ function vertexInfoImpl()
     return " {" + this.label + "} - VISIT: " + this.visit + " - ADJACENCY: " + adjIDs;
 }
 
+//---------------------------------------
+/**
+	 Get information about edges incident to vertex. Information is returned in an array of special output objects.
+	 @return {object[]} Array of custom objects containing edge information, in input order by default.
+ */
+
+function incidentEdgeImpl()
+{
+   var adj =this.adjacent.traverse(), a=[],i;
+   for(i=0;i<adj.length;i++)
+   {
+	   a.push({adjVert:adj[i].target_v, edgeLabel:this.label+adj[i].label, edgeWeight:adj[i].weight});
+   }
+   return a;
+}
+
+//---------------------------------------
+/**
+ * set the vertex label and parent
+ * @param {var} l vertex label
+ * @param {var} p vertex parent label
+ */
+function setVertLabelImpl(l, p)
+{
+	this.label = l;
+	this.parent = p;
+}
+
 // -----------------------------------------------------------------------
+// 								Additional methods
 // -----------------------------------------------------------------------
-// --- begin student code section ----------------------------------------
 
 //---------------------------------------
 /**
@@ -453,18 +504,3 @@ function include(item, array)
 	return false;
 }
 
-//---------------------------------------
-/**
-	 Get information about edges incident to vertex. Information is returned in an array of special output objects.
-	 @return {object[]} Array of custom objects containing edge information, in input order by default.
- */
-
-function incidentEdgeImpl()
-{
-   var adj =this.adjacent.traverse(), a=[],i;
-   for(i=0;i<adj.length;i++)
-   {
-	   a.push({adjVert:adj[i].target_v, edgeLabel:this.label+adj[i].label, edgeWeight:adj[i].weight});
-   }
-   return a;
-}

@@ -308,9 +308,34 @@ while(!q.isEmpty())
 	{ //Forward Edges
 		if(isEdge(i, j))
 		{
-			if()
+			if(!isLabeled(this.network.getVertex(j)))
+			{
+				var r = this.edgeCap(i,j) - this.edgeFlow(i,j);
+				if(r > 0)
+				{
+					var label_j = Math.min(this.network.getVertex(i).netLabel, r);
+					q.enqueue(j);
+				}
+			}
 		}
 	}
+
+	for (var j = 0; j < this.network.length-1; j++)
+	{// Backward Edges
+		if(isBackwardEdge(i,j))
+		{
+			if(!isLabeled(this.network.getVertex(j)))
+			{
+				var r = this.edgeCap(i,j) - this.edgeFlow(i,j);
+				if(r > 0)
+				{
+					var label_j = Math.min(this.network.getVertex(i).netLabel, r);
+					q.enqueue(j);
+				}
+			}
+		}
+	}
+  }
 }
 
 // -----------------------------------------------------------------------

@@ -29,11 +29,8 @@ function FNetwork()
 	
 	// --------------------
 	// student methods next; implementing functions in student code sections
-	this.network.digraph = false;
-	this.network.weighted = false;
 	
-	this.source=0;
-	this.sink=0;
+	
 	// note following are required method names, you are not required to use all of them
 	// you are required to use the name if you choose to have the method
 
@@ -117,7 +114,6 @@ function Edge(vert_i,weight,label)
 
 	// --------------------
 	// student property fields next
-	this.weight2=0;
 	this.flow = 0;
 
 	// --------------------

@@ -226,7 +226,6 @@ function edgeCapImpl(i,j)
 /**
  * set the network's label name
  * @param {string} l 
- * @author Hend Tayeb
  */
 function setLabelImpl(l)
 {
@@ -873,7 +872,7 @@ function incidentEdgeImpl()
    var adj =this.adjacent.traverse(), a=[],i;
    for(i=0;i<adj.length;i++)
    {
-	   a.push({adjVert:adj[i].target_v, edgeLabel:this.label+adj[i].label, edgeWeight:adj[i].weight});
+	   a.push({adjVert:adj[i].target_v, edgeLabel:this.label+adj[i].label, edgeWeight:adj[i].weight, edgeFlow: adj[i].flow});
    }
    return a;
 }

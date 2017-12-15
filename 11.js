@@ -89,6 +89,7 @@ function Vertex(v)
 
 	// --------------------
 	// student methods next; actual functions in student code sections
+	this.isLabeled = isLabeledImpl;
 
 }
 
@@ -112,7 +113,7 @@ function Edge(vert_i,weight,label)
 
 	// --------------------
 	// student property fields next
-
+	this.flow = 0;
 
 	// --------------------
 	// student methods next; actual functions in student code sections
@@ -836,6 +837,17 @@ function setVertLabelImpl(l, p)
 {
 	this.netLabel = l;
 	this.netParent = p;
+}
+
+//---------------------------------------
+/**
+ * 
+ * @param {integer} vertex 
+ * @returns {boolean} true if vertex is labeled
+ */
+function isLabeledImpl(vertex)
+{
+	return vertex.netLabel != 0 && vertex.netParent != 0;
 }
 
 // -----------------------------------------------------------------------

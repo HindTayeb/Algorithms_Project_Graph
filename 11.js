@@ -212,8 +212,8 @@ function edgeFlowImpl(i,j)
 function edgeCapImpl(i,j)
 {
 	var verti = this.network.getVertex(i);
-	var iAdj = verti.incidentEdge();
-	for(var i in iAdj)
+	var Adj = verti.incidentEdge();
+	for(var i in Adj)
 	{
 		if(i.adjVert == j)
 		{
@@ -225,13 +225,15 @@ function edgeCapImpl(i,j)
 function setEdgeFlowImpl(i, j, flow)
 {
     var verti = this.network.vert[i];
-    var adj = verti.adjacent.traverse();
+    var adj = verti.incidentEdge();
 
-    for (var i = 0; i < adj.length; i++)
-    {
-        if (adj[i].target_v == j)
-            adj[i].weight2 = adj[i].weight2 + flow;
-    }
+    for(var i in Adj)
+	{
+		if(i.adjVert == j)
+		{
+			i.edgeFlow = flow;
+		}
+	}
 }
 
 //---------------------------------------

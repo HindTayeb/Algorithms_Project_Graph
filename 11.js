@@ -422,7 +422,30 @@ while(!q.isEmpty())
 	var sink = this.sinkVertex();
 	if(this.network.getVertex(sink).isLabeled())
 	{// augment along the augmentation path found
-		var j = sink; // start at the sink and move backwards using second labels
+		// start at the sink and move backwards using second labels
+		var j = this.network.getVertex(sink); 
+		//while the source hasn’t been reached
+		while(j != 1) 
+		{   
+			if(j.netParent > 0) 
+			{// if forward edge then add flow of this edge to sink label
+				this.setEdgeFlow(j.netParent, j, j.netLabel);
+			}else
+			{// if backward edge then subtract  sink label from edge flow
+				this.setEdgeFlow(j, j.netParent*-1, j.netLabel*-1);
+			}
+			j = j.netParent;
+		}
+		// erase all vertex labels except the ones of the source
+		for(var i = 1; i < this.network.nv; i++)
+		{
+			this.network.getVertex(i).netLabel = 0;
+			this.network.getVertex(i).netParent = 0;
+		}
+		//reinitialize Q with the source
+		q = new Queue();
+		q.enqueue(source);
+
 			
 	}
   }

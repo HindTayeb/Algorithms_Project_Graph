@@ -14,32 +14,23 @@ var _v2 = [], _e2 = [];
 // -----------------------------------------------------------------------
 function main_graph()
 {
-    //create a new NetworkFlow object
+  
     var fn1 = new FNetwork();
-    fn1.network.label = "GRAPH {Figure 10.4 1(Levitin, 3rd edition)} ";
-    // use global arrays
-    fn1.readNetwork(_v, _e);
+    fn1.readNetwork(_v, _e, "GRAPH {Figure 10.4 1(Levitin, 3rd edition)} ");
     // use print_graph() method to check graph
     fn1.network.printGraph();
-    // print the netwok graph befor calling edmondskarp method
     fn1.printNetwork();
-    // call edmondskarp method
     fn1.edmondsKarp();
-    // print the network after calling edmonds-karp method
     fn1.printNetwork();
+	
     //EX 10.2: 2b
-    //create a new NetworkFlow object
+
     var fn2 = new FNetwork();
-    fn2.network.label = "GRAPH {Figure 10.2: 2b (Levitin, 3rd edition)} ";
-    // use global input arrays
-    fn2.readNetwork(_v2, _e2);
+    fn2.readNetwork(_v2, _e2, "GRAPH {Figure 10.2: 2b (Levitin, 3rd edition)} ");
     // use print_graph() method to check graph
     fn2.network.print_graph();
-    // print the netwok graph befor calling edmondskarp method
     fn2.printNetwork();
-    // call edmondskarp method
     fn2.edmondsKarp();
-    // print the network after calling edmonds-karp method
     fn2.printNetwork();
 
 
@@ -214,12 +205,12 @@ function Graph()
 /*
 
 */
-function readNetworkImpl(v, e)
+function readNetworkImpl(v, e, label)
 {
     // set graph properties
     this.network.weighted = true;
     this.network.digraph = true;
-
+    this.network.setLabel(label);	
     // use global input arrays _v and _e to initialize its internal data structures
     this.network.readGraph(v, e);
     this.network.makeAdjMatrix();

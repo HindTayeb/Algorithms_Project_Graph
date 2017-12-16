@@ -15,21 +15,21 @@ var _v2 = [], _e2 = [];
 function main_graph()
 {
   
+  	//Graph 10.4
+  	
     var fn1 = new FNetwork();
-    fn1.readNetwork(_v, _e, "GRAPH {Figure 10.4 1(Levitin, 3rd edition)} ");
-    // use print_graph() method to check graph
-    fn1.network.printGraph();
+    fn1.setLabel("Figure 10.4 1(Levitin, 3rd edition)");
+    fn1.readNetwork(_v, _e);
     fn1.printNetwork();
+    document.write("\n");
     fn1.edmondsKarp();
     fn1.printNetwork();
 	
-    //EX 10.2: 2b
+    //Graph 10.2: 2b
 
     var fn2 = new FNetwork();
-    fn2.readNetwork(_v2, _e2, "GRAPH {Figure 10.2: 2b (Levitin, 3rd edition)} ");
-    // use print_graph() method to check graph
-    fn2.network.print_graph();
-    fn2.printNetwork();
+    fn2.setLabel("Figure 10.2: 2b (Levitin, 3rd edition)");
+    fn2.readNetwork(_v2, _e2);
     fn2.edmondsKarp();
     fn2.printNetwork();
 
@@ -45,6 +45,7 @@ function FNetwork()
 	// --------------------
 	// student property fields next
 	this.network = new Graph();
+	
 	
 	// --------------------
 	// student methods next; implementing functions in student code sections
@@ -106,7 +107,7 @@ function Vertex(v)
 	this.vertexInfo = vertexInfoImpl;
 	this.insertAdjacent=insertAdjacentImp;
 	this.incidentEdge=incidentEdgeImpl;
-
+	this.setNetworkLabels = setNetworkLabelImpl;
 	// --------------------
 	// student methods next; actual functions in student code sections
 	this.isLabeled = isLabeledImpl;
@@ -187,7 +188,8 @@ function Graph()
 	// --------------------
 	// student methods next (actual functions in student code sections)
 	this.prim = primImpl2;
-	this.shortestPathTree = dijkstraImpl; 
+	this.shortestPathTree = dijkstraImpl;
+	this.getVertex = getVertexImpl;
 
 	// transitive closure package (requirements in line comments)
 	this.hasPath = hasPathImpl;    // boolean, true if path exists between vertices v_i, v_j in digraph
@@ -205,12 +207,12 @@ function Graph()
 /*
 
 */
-function readNetworkImpl(v, e, label)
+function readNetworkImpl(v, e)
 {
     // set graph properties
     this.network.weighted = true;
-    this.network.digraph = true;
-    this.network.setLabel(label);	
+    this.network.digraph = true;	
+    
     // use global input arrays _v and _e to initialize its internal data structures
     this.network.readGraph(v, e);
     this.network.makeAdjMatrix();
@@ -221,6 +223,8 @@ function readNetworkImpl(v, e, label)
 */
 function printNetworkImpl()
 {
+	document.write("<p>GRAPH {", this.network.label, "} ", this.network.weighted ? "WEIGHTED, " : "", this.network.digraph ? "" : "UN", "DIRECTED - ",
+	this.network.nv, " VERTICES, ", this.network.ne, " EDGES:</p>");
     // for each vertx 
     for (var i = 0; i < this.network.nv; i++)
     {
@@ -252,13 +256,14 @@ function printNetworkImpl()
  */
 function edgeFlowImpl(i,j)
 {	
-	var verti = this.network.getVertex(i);
-	var iAdj = verti.incidentEdge();
-	for(var i in iAdj)
+	var v = this.network.getVertex(i);
+	var adj = v.incidentEdge();
+
+	for(var i = 0; i < adj.length; i++)
 	{
-		if(i.adjVert == j)
+		if(adj[i].adjVert == j)
 		{
-			return i.edgeFlow;
+			return adj[i].edgeFlow;
 		}
 	}
 }
@@ -271,27 +276,28 @@ function edgeFlowImpl(i,j)
  */
 function edgeCapImpl(i,j)
 {
-	var verti = this.network.getVertex(i);
-	var Adj = verti.incidentEdge();
-	for(var i in Adj)
+	var v = this.network.vert[i];
+	var adj = v.incidentEdge();
+
+	for(var i = 0; i < adj.length; i++)
 	{
-		if(i.adjVert == j)
+		if(adj[i].adjVert == j)
 		{
-			return i.edgeWeight;
+			return adj[i].edgeWeight;
 		}
 	}
 }
 //-------------------------------------
 function setEdgeFlowImpl(i, j, flow)
 {
-    var verti = this.network.vert[i];
-    var adj = verti.incidentEdge();
+	var v = this.network.vert[i];
+	var adj = v.adjacent.traverse();
 
-    for(var i in Adj)
+    for(var i = 0; i < adj.length; i++)
 	{
-		if(i.adjVert == j)
+		if(adj[i].target_v == j)
 		{
-			i.edgeFlow = flow;
+			adj[i].flow = adj[i].flow + flow;
 		}
 	}
 }
@@ -315,11 +321,11 @@ function initFlowImpl()
     for (var i = 0; i < this.network.nv; i++)
     {
         var v = this.network.vert[i];
-        var w = v.adjacent.traverse();
+        var adj = v.adjacent.traverse();
 
-        for (var j = 0; j < w.length; j++)
+        for (var j = 0; j < adj.length; j++)
         {
-            w[j].weight2 = 0;
+            adj[j].flow = 0;
         }
     }
 } 
@@ -349,89 +355,94 @@ function sinkVertexImpl()
 
  function isEdgeImpl(i, j)
  {
-	 return this.network.adjMatrix.dist[i][j] != 0;
+	 return this.network.adjMatrix[i][j].dist!= 0 && this.network.adjMatrix[i][j].dist != Infinity;
  }
 
  //---------------------------------------
 /**
  * @returns {boolean} true if there's an edge between vertices j and i.
  */
-function isBackwardEdgeImpl()
+function isBackwardEdgeImpl(i,j)
 {
-	return this.network.adjMatrix.dist[j][i] != 0;
+	return this.network.adjMatrix[j][i].dist != 0 && this.network.adjMatrix[j][i].dist != Infinity;
 }
 
 //---------------------------------------
 function edmondsKarpImpl()
 {
-
-var q = new Queue();
-
 //assign xij = 0 to every edge (i, j) in the network (initialize flow)
 this.initFlow();
 
+var q = new Queue();
 //label the source with ∞,− and add the source to the empty queue Q
-var source = this.srcVertex;
-this.network.getVertex(source).setLabel(Infinity, "-");
+var source = this.srcVertex();
+this.network.getVertex(source).setNetworkLabels(Infinity, "-");
 q.enqueue(source);
-
+//document.write(this.network.getVertex(source).netLabel);
 while(!q.isEmpty())
-{	var i = q.front();
-	q.dequeue();
+{	
+    var i = q.dequeue().item;
 
-	for (var j = 0; j < this.network.length-1; j++)
+	for (var j = 0; j < this.network.nv; j++)
 	{ //Forward Edges
-		if(isEdge(i, j))
+		if(this.isEdge(i, j))
 		{
-			if(!isLabeled(this.network.getVertex(j)))
+			if(!this.network.getVertex(j).isLabeled())
 			{
+			 var cap = this.edgeCap(i,j), flow = this.edgeFlow(i,j);
 				var r = this.edgeCap(i,j) - this.edgeFlow(i,j);
 				if(r > 0)
 				{
 					var label_j = Math.min(this.network.getVertex(i).netLabel, r);
+					this.network.getVertex(j).setNetworkLabels(label_j, i+1);
 					q.enqueue(j);
 				}
 			}
 		}
 	}
 
-	for (var j = 0; j < this.network.length-1; j++)
+	for (var j = 0; j < this.network.nv; j++)
 	{// Backward Edges
-		if(isBackwardEdge(i,j))
+		if(this.isBackwardEdge(i,j))
 		{
-			if(!isLabeled(this.network.getVertex(j)))
+			if(!this.network.getVertex(j).isLabeled())
 			{
-				var r = this.edgeCap(i,j) - this.edgeFlow(i,j);
-				if(r > 0)
+				var flow = this.edgeFlow(j, i);
+				if(flow > 0)
 				{
-					var label_j = Math.min(this.network.getVertex(i).netLabel, r);
+					var label_j = Math.min(this.network.getVertex(i).netLabel, flow);
+					this.network.getVertex(j).setNetworkLabels(label_j, (i+1)* -1);
 					q.enqueue(j);
 				}
 			}
 		}
 	}
-	var sink = this.sinkVertex();
-	if(this.network.getVertex(sink).isLabeled())
+	
+	var n = this.sinkVertex();
+	
+	if(this.network.getVertex(n).isLabeled())
 	{// augment along the augmentation path found
 		// start at the sink and move backwards using second labels
-		var j = this.network.getVertex(sink); 
+		var j = n + 1; 
+		//var parent = this.network.getVertex(j-1).netParent;
+		//document.write(parent, " ");
 		//while the source hasn’t been reached
 		while(j != 1) 
-		{   
-			if(j.netParent > 0) 
+		{   var parent = this.network.getVertex(j-1).netParent;
+			if(parent > 0) 
 			{// if forward edge then add flow of this edge to sink label
-				this.setEdgeFlow(j.netParent, j, j.netLabel);
+				this.setEdgeFlow(parent-1, j-1, this.network.getVertex(n).netLabel);
 			}else
 			{// if backward edge then subtract  sink label from edge flow
-				this.setEdgeFlow(j, j.netParent*-1, j.netLabel*-1);
+				parent = parent*-1;
+				this.setEdgeFlow(j-1, parent-1, this.network.getVertex(n).netLabel*-1);
 			}
-			j = j.netParent;
+			j = parent;
 		}
 		// erase all vertex labels except the ones of the source
 		for(var i = 1; i < this.network.nv; i++)
 		{
-			this.network.getVertex(i).netLabel = 0;
-			this.network.getVertex(i).netParent = 0;
+			this.network.getVertex(i).setNetworkLabels(0,0);
 		}
 		//reinitialize Q with the source
 		q = new Queue();
@@ -439,8 +450,9 @@ while(!q.isEmpty())
 
 			
 	}
-  }
 }
+}
+
 
 // -----------------------------------------------------------------------
 // 				Graph methods
@@ -946,7 +958,17 @@ function print_edges(g)
 		}
 	}
 }
-
+//---------------------------------------
+/**
+ * 
+ * @param {integer} index 
+ * @returns {vertex} 
+ * @author Hend Tayeb
+ */
+function getVertexImpl(index)
+{
+	return this.vert[index];
+}
 
 
 // -----------------------------------------------------------------------
@@ -1012,7 +1034,7 @@ function incidentEdgeImpl()
  * @param {var} l vertex label
  * @param {var} p vertex parent label
  */
-function setVertLabelImpl(l, p)
+function setNetworkLabelImpl(l, p)
 {
 	this.netLabel = l;
 	this.netParent = p;
@@ -1024,9 +1046,9 @@ function setVertLabelImpl(l, p)
  * @param {integer} vertex 
  * @returns {boolean} true if vertex is labeled
  */
-function isLabeledImpl(vertex)
+function isLabeledImpl()
 {
-	return vertex.netLabel != 0 && vertex.netParent != 0;
+	return this.netLabel != 0 && this.netParent != 0;
 }
 
 // -----------------------------------------------------------------------

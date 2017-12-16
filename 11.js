@@ -381,7 +381,7 @@ this.initFlow();
 
 //label the source with ∞,− and add the source to the empty queue Q
 var source = this.srcVertex;
-this.network[source].setLabel(Infinity, "-");	
+this.network.getVertex(source).setLabel(Infinity, "-");
 q.enqueue(source);
 
 while(!q.isEmpty())

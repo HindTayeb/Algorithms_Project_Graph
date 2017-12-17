@@ -1,10 +1,12 @@
 // CPCS 324 Algorithms & Data Structures 2
-// Graph data structure starter - Transitive Closure Package
+// Reference starter - Basic Flow Network Package (NEW)
 // 2017, Dr. Muhammad Al-Hashimi
+
 // -----------------------------------------------------------------------
 // simple graph object with linked-list edge implementation and minimal fields
 // extra vertex and edge property fields to be added later as needed
 //
+
 var _v = [],
 _e = []; // note naming convention in upload guide
 var _v2 = [],

@@ -20,7 +20,7 @@ function main_graph()
 // create network
 var fn1 = new FNetwork();
 // set network properties
-fn1.setLabel("Figure 10.4 1(Levitin, 3rd edition)");
+fn1.setLabel("Figure 10.4 (Levitin, 3rd edition)");
 // use global input arrays _v and _e to initialize its internal data structures
 fn1.readNetwork(_v, _e);
 // use printNetwork() method to check network
@@ -217,8 +217,8 @@ this.dfsTC = dfsTCImpl; // return TC matrix for digraph based on a dfs
 /**
  * @author Hawazin aldosari
  * @memberof #FNetwork
- * @param {*} v 
- * @param {*} e 
+ * @param {integer} v 
+ * @param {integer} e 
  */
 function readNetworkImpl(v, e)
 {
@@ -267,6 +267,7 @@ function printNetworkImpl()
 //---------------------------------------
 /**
  * @author Hawazin aldosari
+ * @memberof #FNetwork
  * @param {integer} i 
  * @param {integer} j 
  * @returns {integer} the edge flow 
@@ -287,6 +288,7 @@ function edgeFlowImpl(i,j)
 //---------------------------------------
 /**
  * @author wejdan Aljedani 
+ * @memberof #FNetwork
  * @param {integer} i 
  * @param {integer} j 
  * @returns {integer} the edge capacity
@@ -307,6 +309,7 @@ function edgeCapImpl(i,j)
 //-------------------------------------
 /**
  * @author wejdan Aljedani 
+ * @memberof #FNetwork
  * @param {integer} i 
  * @param {integer} j 
  * @param {integer} flow
@@ -328,7 +331,7 @@ function setEdgeFlowImpl(i, j, flow)
 //---------------------------------------
 /**
  * @author Hawazin aldosari
- * 
+ * @memberof #FNetwork
  * set the network's label name
  * @param {string} l 
  */
@@ -339,6 +342,7 @@ function setLabelImpl(l)
 //---------------------------------------
 /**
  *@author Hawazin aldosari
+ @memberof #FNetwork
  * assign flow = 0 to every edge (i, j) in the network
  */
 function initFlowImpl()

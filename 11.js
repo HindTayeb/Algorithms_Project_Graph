@@ -1,35 +1,45 @@
 // CPCS 324 Algorithms & Data Structures 2
-//  Reference starter - Basic Flow Network Package (NEW)
+// Reference starter - Basic Flow Network Package (NEW)
 // 2017, Dr. Muhammad Al-Hashimi
 
 // -----------------------------------------------------------------------
 // simple graph object with linked-list edge implementation and minimal fields
 // extra vertex and edge property fields to be added later as needed
 //
-var _v = [], _e = [];   // note naming convention in upload guide
-var _v2 = [], _e2 = [];   
+
+var _v = [],
+_e = []; // note naming convention in upload guide
+var _v2 = [],
+_e2 = [];
 
 // -----------------------------------------------------------------------
 function main_graph()
 {
-  	//Graph 10.4
-    var fn1 = new FNetwork();
-    fn1.setLabel("Figure 10.4 1(Levitin, 3rd edition)");
-    fn1.readNetwork(_v, _e);
-    fn1.printNetwork();
-    document.write("\n");
-    fn1.edmondsKarp();
-    fn1.printNetwork();
-	
-    //Graph 10.2: 2b
 
-    var fn2 = new FNetwork();
-    fn2.setLabel("Figure 10.2: 2b (Levitin, 3rd edition)");
-    fn2.readNetwork(_v2, _e2);
-    fn2.edmondsKarp();
-    fn2.printNetwork();
+//Graph 10.4
+// create network
+var fn1 = new FNetwork();
+// set network properties
+fn1.setLabel("Figure 10.4 1(Levitin, 3rd edition)");
+// use global input arrays _v and _e to initialize its internal data structures
+fn1.readNetwork(_v, _e);
+// use printNetwork() method to check network
+fn1.printNetwork();
+document.write("\n");
+// perform edmondsKarp and output result
+fn1.edmondsKarp();
+fn1.printNetwork();
 
-
+//Graph 10.2: 2b
+// create network
+var fn2 = new FNetwork();
+// set network properties
+fn2.setLabel("Figure 10.2: 2b (Levitin, 3rd edition)");
+// use global input arrays _v2 and _e2 to initialize its internal data structures
+fn2.readNetwork(_v2, _e2);
+// perform edmondsKarp and output result
+fn2.edmondsKarp();
+fn2.printNetwork();
 }
 
 // -----------------------------------------------------------------------
@@ -43,46 +53,47 @@ function main_graph()
 function FNetwork()   
 {
 
-	// --------------------
-	// student property fields next
-	this.network = new Graph();
-	
-	
-	// --------------------
-	// student methods next; implementing functions in student code sections
-	
-	
-	// note following are required method names, you are not required to use all of them
-	// you are required to use the name if you choose to have the method
+// --------------------
+// student property fields next
+this.network = new Graph();
 
-	// accessor methods: getters
-	this.edgeFlow= edgeFlowImpl;                  // return (get) flow for argument edge i,j
-	this.edgeCap =edgeCapImpl;                   // return capacity for argument edge i,j
-	this.srcVertex = srcVertexImpl;               // return source vertex (or its id, you decide)
-	this.sinkVertex = sinkVertexImpl;               // return sink vertex (or its id, you decide)
-	this.getFlowVal                // return current flow *value* in network
-	this.getFlow                   // return current flow as array of {u,v,flow} objects
-	this.inFlow                    // return incoming flow for argument vertex
-	this.outFlow                   // return outgoing flow for argument vertex
-	
-	// accessor methods: setters
-	this.setEdgeFlow = setEdgeFlowImpl;             // set flow on argument edge (i,j)
-	this.setFlow                   // set flow to argument (including 0) for all edges 
-	this.initFlow = initFlowImpl;                  // reset flow to 0 for all edges
-	this.setLabel = setLabelImpl;                  // set network label (hide Graph code)
-	
-	
-	// other possibly useful method names
-	this.isSrc                     // true if argument is source vertex of network      
-	this.isSink                    // true if argument is sink vertex of network
-	this.isEdge = isEdgeImpl;                    // true if argument vertices form an edge ALERT belong to Graph() but leave as test to students
-	this.isBackwardEdge = isBackwardEdgeImpl;            // true if argument vertices form a backward edge
-	this.readNetwork =readNetworkImpl;              // input reader method
-	this.printNetwork=printNetworkImpl;              // output network including current flow (reference output of final project
-	this.edmondsKarp = edmondsKarpImpl;             // implement the Edmonds-Karp algorithm for maximum flow
-	
+
+// --------------------
+// student methods next; implementing functions in student code sections
+
+
+// note following are required method names, you are not required to use all of them
+// you are required to use the name if you choose to have the method
+
+// accessor methods: getters
+this.edgeFlow = edgeFlowImpl; // return (get) flow for argument edge i,j
+this.edgeCap = edgeCapImpl; // return capacity for argument edge i,j
+this.srcVertex = srcVertexImpl; // return source vertex (or its id, you decide)
+this.sinkVertex = sinkVertexImpl; // return sink vertex (or its id, you decide)
+this.getFlowVal // return current flow *value* in network
+this.getFlow // return current flow as array of {u,v,flow} objects
+this.inFlow // return incoming flow for argument vertex
+this.outFlow // return outgoing flow for argument vertex
+
+// accessor methods: setters
+this.setEdgeFlow = setEdgeFlowImpl; // set flow on argument edge (i,j)
+this.setFlow // set flow to argument (including 0) for all edges 
+this.initFlow = initFlowImpl; // reset flow to 0 for all edges
+this.setLabel = setLabelImpl; // set network label (hide Graph code)
+
+
+// other possibly useful method names
+this.isSrc // true if argument is source vertex of network      
+this.isSink // true if argument is sink vertex of network
+this.isEdge = isEdgeImpl; // true if argument vertices form an edge ALERT belong to Graph() but leave as test to students
+this.isBackwardEdge = isBackwardEdgeImpl; // true if argument vertices form a backward edge
+this.readNetwork = readNetworkImpl; // input reader method
+this.printNetwork = printNetworkImpl; // output network including current flow (reference output of final project
+this.edmondsKarp = edmondsKarpImpl; // implement the Edmonds-Karp algorithm for maximum flow
+
 
 }
+
 // -----------------------------------------------------------------------
 
 function Vertex(v)
@@ -143,59 +154,60 @@ function Edge(vert_i,weight,label)
 
 
 // -----------------------------------------------------------------------
-
+/**
+* @constructor 
+*/
 function Graph()
 {
-	// published docs section (ref. assignment page)
-	// for this section, strip line comments (leave outline)
-	// no JSDOC comments in this section
+// published docs section (ref. assignment page)
+// for this section, strip line comments (leave outline)
+// no JSDOC comments in this section
 
 
-	// property fields
+// property fields
 
-	this.vert = [];
-	this.nv = 0;
-	this.ne = 0;
-	this.digraph = false;
-	this.weighted = null;
-	this.dfs_push = [];
-	this.bfs_out = [];
-	this.label = "";
-	this.connectedComp = 0;
-	this.adjMatrix = [];
+this.vert = [];
+this.nv = 0;
+this.ne = 0;
+this.digraph = false;
+this.weighted = null;
+this.dfs_push = [];
+this.bfs_out = [];
+this.label = "";
+this.connectedComp = 0;
+this.adjMatrix = [];
 
-	// member methods
+// member methods
 
-	this.readGraph = better_input;
-	this.printGraph = print_graphImpl;
-	this.addEdge = add_edgeImpl2;
-	this.dfs = dfsImpl;
-	this.bfs = bfsImpl;
-	this.makeAdjMatrix = makeAdjMatrixImpl2;
-	this.isConnected = isConnectedImpl;
-	this.connectInfo = reportConnectivity;
-	this.topoSearch = topoSearchImpl;
-	
-	// --------------------
-	// student property fields next
-	this.R = []; // TC matrix by warshall
-	this.D = []; // distance matrix by floyed
-	this.dfsTCMatrix = [];
-	this.spt = []; //shortest path treee
-	
-	// --------------------
-	// student methods next (actual functions in student code sections)
-	this.prim = primImpl2;
-	this.shortestPathTree = dijkstraImpl;
-	this.getVertex = getVertexImpl;
+this.readGraph = better_input;
+this.printGraph = print_graphImpl;
+this.addEdge = add_edgeImpl2;
+this.dfs = dfsImpl;
+this.bfs = bfsImpl;
+this.makeAdjMatrix = makeAdjMatrixImpl2;
+this.isConnected = isConnectedImpl;
+this.connectInfo = reportConnectivity;
+this.topoSearch = topoSearchImpl;
 
-	// transitive closure package (requirements in line comments)
-	this.hasPath = hasPathImpl;    // boolean, true if path exists between vertices v_i, v_j in digraph
-	this.shortestPath = shortestPathImpl;      // return distance of shortest path between v_i, v_j in weighted graph
-	this.isDAG = isDAGImpl;                    // boolean, true if acyclic digraph
-	this.warshallFloyd = warshallFloydImpl;    // inserts .tc field in adjacency matrix if digraph, and .dist if weighted
-	this.dfsTC = dfsTCImpl;                    // return TC matrix for digraph based on a dfs
+// --------------------
+// student property fields next
+this.R = []; // TC matrix by warshall
+this.D = []; // distance matrix by floyed
+this.dfsTCMatrix = [];
+this.spt = []; //shortest path treee
 
+// --------------------
+// student methods next (actual functions in student code sections)
+this.prim = primImpl2;
+this.shortestPathTree = dijkstraImpl;
+this.getVertex = getVertexImpl;
+
+// transitive closure package (requirements in line comments)
+this.hasPath = hasPathImpl; // boolean, true if path exists between vertices v_i, v_j in digraph
+this.shortestPath = shortestPathImpl; // return distance of shortest path between v_i, v_j in weighted graph
+this.isDAG = isDAGImpl; // boolean, true if acyclic digraph
+this.warshallFloyd = warshallFloydImpl; // inserts .tc field in adjacency matrix if digraph, and .dist if weighted
+this.dfsTC = dfsTCImpl; // return TC matrix for digraph based on a dfs
 }
 
 // -----------------------------------------------------------------------
@@ -205,6 +217,8 @@ function Graph()
 /**
  * @author Hawazin aldosari
  * @memberof #FNetwork
+ * @param {*} v 
+ * @param {*} e 
  */
 function readNetworkImpl(v, e)
 {

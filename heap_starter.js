@@ -55,12 +55,12 @@ function isEmptyImpl()
 /** 
   delete the root node of heap tree
   @methodof heap#
-  @return {integer, string} the node's key and data item
+  @return {string} the node's data item
   @author Hend Tayeb
 */
 function deleteRootImpl()
 {
-	var item = {key:this.h[1]*-1, data:this.h_item[1]};
+	var data_item = this.h_item[1];
 	if(!this.isEmpty())
 	{
 		this.h[1] = this.h[this.size];
@@ -68,7 +68,6 @@ function deleteRootImpl()
 		this.heapify();
 
 	}
-	return item;
 }
 
 /** 
@@ -79,9 +78,47 @@ function deleteRootImpl()
 function insertImpl(key, data_item)
 {
 	this.size++;
-	this.h[this.size] = key*-1;
+	this.h[this.size] = key;
 	this.h_item[this.size] = data_item;
 	this.reheapify();
+}
+
+/**
+ * @methodof Heap
+ * @author Sahar Ashmawi
+ */
+function heapifyImpl()
+{
+	var n= this.size, i;
+	for (i= Math.floor; i < n; i = i % 2 == 0 ? i++ : 2*n)
+	{
+		var k = i;
+		var v = {key: this.h[k], item: this.h_item[k]};
+		var heap = false;
+		while(!heap && 2*k <= n) 
+		{
+			var j = 2*k;
+			if (j < n)
+			{
+				if (h[j] > h[j+1])
+				{
+					j++;
+				}
+			}
+			if (v.key <= h[j])
+			{
+				heap = true;
+			}
+			else 
+			{
+				this.h[k] = this.h[j];
+				this.h_item[k] = this.h_item[j];
+				k=j;
+			}
+		}
+		this.h[k] = v.key;
+		this.h_item[k] = v.key;
+	}
 }
 
 /** 

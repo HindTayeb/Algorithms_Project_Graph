@@ -59,6 +59,14 @@ function deleteRootImpl()
 	}
 }
 
+function insertImpl(key, data_item)
+{
+	this.size++;
+	this.h[this.size] = key;
+	this.h_item[this.size] = data_item;
+	this.reheapify();
+}
+
 function heapShow()
 {
 	var n = this.size;

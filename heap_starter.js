@@ -78,7 +78,7 @@ function deleteRootImpl()
 function insertImpl(key, data_item)
 {
 	this.size++;
-	this.h[this.size] = key;
+	this.h[this.size] = key*-1;
 	this.h_item[this.size] = data_item;
 	this.reheapify();
 }

@@ -41,12 +41,23 @@ function Heap()
 // -----------------------------------------------------------------------
 // functions used by methods of Heap() object 
 //
-
+/** 
+  check if heap is empty 
+  @methodof heap#
+  @return {boolean} the status of heap
+  @author Hend Tayeb
+*/
 function isEmptyImpl()
 {
 	return this.size == 0;
 }
 
+/** 
+  delete the root node of heap tree
+  @methodof heap#
+  @return {string} the node's data item
+  @author Hend Tayeb
+*/
 function deleteRootImpl()
 {
 	var data_item = this.h_item[1];
@@ -59,12 +70,52 @@ function deleteRootImpl()
 	}
 }
 
+/** 
+  insert item in heap tree
+  @methodof heap#
+  @author Hend Tayeb
+*/
 function insertImpl(key, data_item)
 {
 	this.size++;
 	this.h[this.size] = key;
 	this.h_item[this.size] = data_item;
 	this.reheapify();
+}
+
+/** 
+  implements Heap Bottom Up algorithm referenced from Livien P.229
+  @methodof heap#
+  @author Hend Tayeb
+*/
+function reheapifyImpl()
+{
+	var n = this.size, i;
+	for(i = Math.floor(n/2); i > 1; i--)
+	{
+		var k = i;
+		var v = {key: this.h[k], item:this.h_item[k]};
+		var heap = false;
+		while(!heap && 2*k <= n)
+		{
+			var j = 2*k;
+			if(j < n)
+			{
+				if(this.h[j] < this.h[j+1])
+					j++;
+			}
+			if(v.key >= this.h[j]){
+				heap = true;
+			}else 
+			{
+				this.h[k] = this.h[j];
+				this.h_item[k] = this.h_item[j];
+				k = j;
+			}
+		}
+		this.h[k] = v.key;
+		this.h_item[k] = v.item;
+	}
 }
 
 function heapShow()

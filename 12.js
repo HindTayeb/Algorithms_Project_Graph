@@ -434,82 +434,6 @@ return EdgeT;//return edges which has minimum weight
 // -----------------------------------------------------------------------
 // additional functions NOT in published API
 
-
-// -----------------------------------------------------------------------
-// paste your Heap() object, followed by functions implementing its methods
-
-function Heap()
-{
-     
-}
-
-// -----------------------------------------------------------------------
-// functions used by Heap() object methods
-//
-
-function heapShow()
-{
-
-}
-//-------------
-function insertHeapImpl()
-{
-
-}
-//-----------
-function isEmptyHeapImpl()
-{
-	
-}
-//----------------------
-
-// -----------------------------------------------------------------------
-// similar to starter 8 and 11
-// published docs section (ref. assignment page)
-// for this section, strip line comments (leave outline)
-// *NO* JSDOC comments in this section
-// -----------------------------------------------------------------------
-
-function better_input(v,e)
-{
-	// set number of vertices and edges fields
-	this.nv = v.length;
-	this.ne = e.length;
-
-	// input vertices into internal vertex array
-	var i, ver;
-	for (i = 0; i < this.nv; i++)
-	{
-		ver = new Vertex(v[i]);
-		this.vert.push(ver);
-	}
-
-	// input vertex pairs from edge list input array
-	// remember to pass vertex ids to addEdge()
-	var j;
-	if (e[0].w != null)
-	{
-		this.weighted = true;
-		for (j = 0; j < this.ne; j++)
-		{
-			this.addEdge(e[j].u, e[j].v, e[j].w);
-		}
-	}
-	else
-	{
-		for (j = 0; j < this.ne; j++)
-		{
-			this.addEdge(e[j].u, e[j].v);
-		}
-	}
-
-	// double edge count if graph undirected
-
-	if (!this.digraph)
-	{
-		this.ne = this.ne * 2;
-	}
-}
 //---------------------------------------
 function topoSearchImpl(fun)
 {
@@ -590,6 +514,83 @@ function bfsImpl(v_i)
 				bfs_q.enqueue(this.vert[w[i]]);
 			}
 		}
+	}
+}
+
+
+// -----------------------------------------------------------------------
+// paste your Heap() object, followed by functions implementing its methods
+
+function Heap()
+{
+     
+}
+
+// -----------------------------------------------------------------------
+// functions used by Heap() object methods
+//
+
+function heapShow()
+{
+
+}
+//-------------
+function insertHeapImpl()
+{
+
+}
+//-----------
+function isEmptyHeapImpl()
+{
+	
+}
+//----------------------
+
+// -----------------------------------------------------------------------
+// similar to starter 8 and 11
+// published docs section (ref. assignment page)
+// for this section, strip line comments (leave outline)
+// *NO* JSDOC comments in this section
+// -----------------------------------------------------------------------
+
+function better_input(v,e)
+{
+	// set number of vertices and edges fields
+	this.nv = v.length;
+	this.ne = e.length;
+
+	// input vertices into internal vertex array
+	var i, ver;
+	for (i = 0; i < this.nv; i++)
+	{
+		ver = new Vertex(v[i]);
+		this.vert.push(ver);
+	}
+
+	// input vertex pairs from edge list input array
+	// remember to pass vertex ids to addEdge()
+	var j;
+	if (e[0].w != null)
+	{
+		this.weighted = true;
+		for (j = 0; j < this.ne; j++)
+		{
+			this.addEdge(e[j].u, e[j].v, e[j].w);
+		}
+	}
+	else
+	{
+		for (j = 0; j < this.ne; j++)
+		{
+			this.addEdge(e[j].u, e[j].v);
+		}
+	}
+
+	// double edge count if graph undirected
+
+	if (!this.digraph)
+	{
+		this.ne = this.ne * 2;
 	}
 }
 

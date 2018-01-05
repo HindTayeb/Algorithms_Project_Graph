@@ -116,7 +116,7 @@ function deleteMinImpl()
         //delete minimum node
     	if(this.pq.first.item == minNode)
     	{
-    		deleteNode = this.pq.delete_first().item;
+    		deleteNode = this.pq.delete_first().item * -1;
     	}else
     	{
     		temp = this.pq.first;
@@ -138,7 +138,7 @@ function deleteMinImpl()
  */
 function insertImpl(item, key)
 {
-     this.pq.insert(new PQNode(item, key));
+     this.pq.insert(new PQNode((item * -1), key ));
 }
 //-------------------------------------------------------------------------
 /**

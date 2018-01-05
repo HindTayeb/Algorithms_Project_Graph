@@ -328,38 +328,35 @@ function dfsTCImpl()
 
 				// v for vertices, e for edges, and w for adjacent vertices.
 		 	 // initialize v with first vertex, w with first vertex's adjacent, and minWeight with first vertex weight.
-		 	var v = [this.vert[0]];
-		 	var e = [];
 		 	var w;
 		 	var minWeight = Infinity;
 		 	var nextVert;  //next vertex to traverse.
-
+			this.Vt = [];
 			//mark first vertex as visited
 			v[0].visit = true;
+	 		this.Vt.push({parent:"-",vtree:0});
 
 		//start from second vertex since first one already in v tree.
 		//check the edges from pervious vertices
 	for(var i = 1; i < this.vert.length; i++)
 	{//check the edges from current vertex
-		for(var j = 0; j < v.length; j++)
+		for(var j = 0; j < this.Vt.length; j++)
 		{
-			w = v[j].incidentEdge();
+			w = this.vert[this.Vt[j].vtree].incidentEdge();
 			for(var k = 0; k < w.length; k++)
 			{
 				if(!this.vert[w[k].adjVert].visit && w[k].edgeWeight <= minWeight)
 				{
-					minWeight = w[k].edgeWeight; nextVert=w[k];
+					minWeight = w[k].edgeWeight; nextVert=w[k]; parent = this.Vt[j].vtree;;
 				}
 			}
 		}
 		minWeight = Infinity;
-		v.push(this.vert[nextVert.adjVert]);
-		e.push(nextVert);
+		this.Vt.push({parent:parent, vtree:nextVert.adjVert});
 
 		//mark next visit vertex as visited
-		v[i].visit = true;
+		v[nextVert.adjVert].visit = true;
 	}
-	return e;
  }
 
 
@@ -379,7 +376,6 @@ uses {@link #deleteMin} method of priority queue:uses to delete edge from priori
 function primImpl2()
 {
 	var vertexT = []; //vertex tree
-	var EdgeT = []; //edge tree
 	var edge_Min;//edge which has high priority (minimum weight)
 	//mark all verecess are not visited.
 	for (var i = 0; i < this.nv; i++)
@@ -391,8 +387,7 @@ function primImpl2()
 		 vertexT[0] = this.vert[0]; //set first vertex in vertex tree 
 		 this.vert[0].visit=true;//set first vertex as visited
 		  //insert source vertex to edge tree and source vertex does not have source vertex(parent)
-		  var edge={vertex_i:0,parent_i:"-"}; 
-		  EdgeT[0]={edge};//insert first edge to edge tree
+		this.Vt.push({parent:"-",vtree:0});
         //get incedent edge for first vertex
 	     var inci_Edge = vertexT[0].incidentEdge();
 		 var w=inci_Edge.length;//get length of incidentEdge for first vertex 
@@ -411,9 +406,7 @@ function primImpl2()
 		}while(this.vert[edge_Min.item.vertex_i].visit);//check if vertex is visited  repeat to delete next edge which has high priority(minimum weight) 
 		    vertexT[vertexT.length] = edge_Min.item.vertex_i; //set target vertex to vertex tree in last index
 		    //update edge tree (insert minimum edge which has vertex id and parent id)
-		    var edge={vertex_i: edge_Min.item.vertex_i,parent_i:edge_Min.item.parent_i};
-	 	    EdgeT[i]={edge};
-		    this.vert[edge_Min.item.vertex_i].visit = true; //update vertex(target vertex) in minimum edge as visited	
+		    this.Vt.push({parent:edge_Min.item.parent_i,vtree: edge_Min.item.vertex_i});this.vert[edge_Min.item.vertex_i].visit = true; //update vertex(target vertex) in minimum edge as visited	
 		    //get all incidentEdge for vertex(target vertex) 		
             var inci_Edge=this.vert[edge_Min.item.vertex_i].incidentEdge();
 		    for(var j=0;j<inci_Edge.length;j++)
@@ -427,7 +420,6 @@ function primImpl2()
 			    }
 	        }
     }
-return EdgeT;//return edges which has minimum weight 
 }
 
 

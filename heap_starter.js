@@ -47,6 +47,17 @@ function isEmptyImpl()
 	return this.size == 0;
 }
 
+function deleteRootImpl()
+{
+	var data_item = this.h_item[1];
+	if(!this.isEmpty())
+	{
+		this.h[1] = this.h[this.size];
+		this.h_item[1] = this.h_item[this.size];
+		this.heapify();
+
+	}
+}
 
 function heapShow()
 {

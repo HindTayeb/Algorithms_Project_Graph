@@ -91,7 +91,7 @@ function insertImpl(key, data_item)
 function reheapifyImpl()
 {
 	var n = this.size, i;
-	for(i = Math.floor(n/2); i > 1; i--)
+	for(i = Math.floor(n/2); i >= 1; i = i % 2 == 0 ? i / 2 : (i - 1) / 2)
 	{
 		var k = i;
 		var v = {key: this.h[k], item:this.h_item[k]};

@@ -100,12 +100,12 @@ function heapifyImpl()
 			
 			if (j < n)
 			{
-				if (h[j] < h[j+1])
+				if (this.h[j] < this.h[j+1])
 				{
 					j++;
 				}
 			}
-			if (v.key >= h[j])
+			if (v.key >= this.h[j])
 			{
 				heap = true;
 			}

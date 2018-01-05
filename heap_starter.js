@@ -42,6 +42,12 @@ function Heap()
 // functions used by methods of Heap() object 
 //
 
+function isEmptyImpl()
+{
+	return this.size == 0;
+}
+
+
 function heapShow()
 {
 	var n = this.size;

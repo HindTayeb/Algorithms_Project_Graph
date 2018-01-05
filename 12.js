@@ -193,6 +193,175 @@ function random(low,high)
 // -----------------------------------------------------------------------
 // implementation 1, transitive closure package + First Prim 
 
+/**
+	check if path exists between vertices v_i, v_j in digraph. return true if exists and false if not.
+
+	@methodOf Graph# 
+	@param {number} v_i source vertex id
+	@param {number} v_j target vertex id
+	@return {boolean} true if path exists
+ */
+
+function hasPathImpl(v_i, v_j)
+{
+	return v_i && v_j;
+}
+
+// --------------------
+
+/**
+	compare between v_i, v_j distances in weighted graph and returns the shortest path among them.
+
+	@methodOf Graph# 
+	@param {number} v_i source vertex id
+	@param {number} v_j target vertex id
+	@return {number} distance of shortest path
+ */
+
+function shortestPathImpl(v_i, v_j)
+{
+	return (v_i <= v_j)? v_i: v_j;
+}
+
+// --------------------
+
+/**
+	Check if graph is directed acyclic graph.
+
+	@methodOf Graph# 
+	@return {boolean} true if acyclic digraph
+ */
+
+function isDAGImpl()
+{
+	var dag = true;
+	for(var i = 0; i < this.nv; i++)
+	{
+		if(this.R[i][i] == 1)
+			dag = false;
+	}
+	return dag;
+}
+
+// --------------------
+
+/**
+	Generate TC matrix and distance matrix representation of graph based on warshall's and floyd's algorithms.
+	 TC matrix if unweighted graph, and distance matrix if weighted graph.
+
+	@methodOf Graph# 
+ */
+
+function warshallFloydImpl()
+{
+	this.R = copyMatrix(this.adjMatrix, "tc");
+	this.D = copyMatrix(this.adjMatrix, "distance");	
+	var k, i, j;
+
+	for(k = 0; k < this.nv; k++)
+	{
+		for(i = 0; i < this.nv; i++)
+		{
+			for(j = 0; j < this.nv; j++)
+			{
+				this.R[i][j] = (this.R[i][j] == 1)? this.R[i][j]:this.hasPath(this.R[i][k],this.R[k][j]);
+				this.D[i][j] = this.shortestPath(this.D[i][j],this.D[i][k]+this.D[k][j]);
+			}
+		}
+	}
+
+}
+
+// --------------------
+
+/**
+	Generate TC matrix representation of graph based on DFS algorithm
+	.
+	@methodOf Graph# 
+ */
+
+function dfsTCImpl()
+{
+	for (i = 0; i < this.nv; i++)
+	{
+		var v = this.vert[i];
+
+		for (j = 0; j < this.nv; j++)
+		{
+			this.vert[j].visit = false;
+		}
+
+		this.dfsTCMatrix[i] = [];
+		for (k = 0; k < this.nv; k++)
+		{
+			this.dfsTCMatrix[i][j] = 0;
+		}
+
+		var w = v.adjacentByID();
+		for (k = 0; k < w.length; k++)
+		{
+			this.dfs(w[k]);
+		}
+
+		for (k = 0; k < this.nv; k++)
+		{
+			if (this.vert[k].visit)
+			{
+				this.dfsTCMatrix[i][k] = 1;
+			}
+		}
+	}
+}
+
+//---------------------------------------
+/**
+	 Implement first version of prims algorithms on graph and return the minimum spanning tree for it.
+
+	 @return {object[]} Array of custom objects containing minimum spanning tree of graph, in input order by default.
+ */
+
+ function primImpl()
+ {
+	// mark all vertices unvisited
+    for (var i = 0; i < this.nv; i++)
+        this.vert[i].visit = false;
+
+				// v for vertices, e for edges, and w for adjacent vertices.
+		 	 // initialize v with first vertex, w with first vertex's adjacent, and minWeight with first vertex weight.
+		 	var v = [this.vert[0]];
+		 	var e = [];
+		 	var w;
+		 	var minWeight = Infinity;
+		 	var nextVert;  //next vertex to traverse.
+
+			//mark first vertex as visited
+			v[0].visit = true;
+
+		//start from second vertex since first one already in v tree.
+		//check the edges from pervious vertices
+	for(var i = 1; i < this.vert.length; i++)
+	{//check the edges from current vertex
+		for(var j = 0; j < v.length; j++)
+		{
+			w = v[j].incidentEdge();
+			for(var k = 0; k < w.length; k++)
+			{
+				if(!this.vert[w[k].adjVert].visit && w[k].edgeWeight <= minWeight)
+				{
+					minWeight = w[k].edgeWeight; nextVert=w[k];
+				}
+			}
+		}
+		minWeight = Infinity;
+		v.push(this.vert[nextVert.adjVert]);
+		e.push(nextVert);
+
+		//mark next visit vertex as visited
+		v[i].visit = true;
+	}
+	return e;
+ }
+
 
 // -----------------------------------------------------------------------
 // implementation 2, greedy algorithms package (REMOVE Dijkstra)
@@ -359,59 +528,7 @@ function bfsImpl(v_i)
 		}
 	}
 }
-//---------------------------------------
-function warshallFloydImpl()
-{
-	this.R = copyMatrix(this.adjMatrix, "tc");
-	this.D = copyMatrix(this.adjMatrix, "distance");	
-	var k, i, j;
 
-	for(k = 0; k < this.nv; k++)
-	{
-		for(i = 0; i < this.nv; i++)
-		{
-			for(j = 0; j < this.nv; j++)
-			{
-				this.R[i][j] = (this.R[i][j] == 1)? this.R[i][j]:this.hasPath(this.R[i][k],this.R[k][j]);
-				this.D[i][j] = this.shortestPath(this.D[i][j],this.D[i][k]+this.D[k][j]);
-			}
-		}
-	}
-
-}
-//---------------------------------------
-function dfsTCImpl()
-{
-	for (i = 0; i < this.nv; i++)
-	{
-		var v = this.vert[i];
-
-		for (j = 0; j < this.nv; j++)
-		{
-			this.vert[j].visit = false;
-		}
-
-		this.dfsTCMatrix[i] = [];
-		for (k = 0; k < this.nv; k++)
-		{
-			this.dfsTCMatrix[i][j] = 0;
-		}
-
-		var w = v.adjacentByID();
-		for (k = 0; k < w.length; k++)
-		{
-			this.dfs(w[k]);
-		}
-
-		for (k = 0; k < this.nv; k++)
-		{
-			if (this.vert[k].visit)
-			{
-				this.dfsTCMatrix[i][k] = 1;
-			}
-		}
-	}
-}
 //---------------------------------------
 function makeAdjMatrixImpl2()
 {

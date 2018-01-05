@@ -25,12 +25,12 @@ function Heap()
 	// the 2 basic shape maintainig operations heapify and reheapify simplify
 	// processing functions
 
-	this.isEmpty =                     // return true if heap empty
-	this.deleteRoot =                  // return data-item in root
-	this.insert =                      // insert data-item with key
+	this.isEmpty = isEmptyImpl;        // return true if heap empty
+	this.deleteRoot = deleteRootImpl;  // return data-item in root
+	this.insert = insertImpl;          // insert data-item with key
 	
-	this.heapify =                     // make subtree heap; top-down heapify ("sink") used by .deleteRoot()
-	this.reheapify =                   // bottom-up reheapify ("swim") used by .insert()
+	this.heapify = heapifyImpl;        // make subtree heap; top-down heapify ("sink") used by .deleteRoot()
+	this.reheapify = reheapifyImpl;    // bottom-up reheapify ("swim") used by .insert()
 	this.show = heapShow;              // utility: return pretty formatted heap as string 
 
 	// --------------------

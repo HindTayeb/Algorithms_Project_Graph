@@ -207,7 +207,13 @@ function random(low,high)
 
 function Heap()
 {
-
+        this.h = [null];
+	this.h_obj = [null];
+	this.size = 0;
+	
+	this.show = heapShow;
+	this.insert = insertHeapImpl;
+	this.isEmpty = isEmptyHeapImpl;
 }
 
 // -----------------------------------------------------------------------
@@ -218,8 +224,17 @@ function heapShow()
 {
 
 }
+//-------------
+function insertHeapImpl()
+{
 
-// ...etc
+}
+//-----------
+function isEmptyHeapImpl()
+{
+	 return this.size == 0;
+}
+//----------------------
 
 // -----------------------------------------------------------------------
 // similar to starter 8 and 11

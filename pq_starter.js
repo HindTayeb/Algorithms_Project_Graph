@@ -42,14 +42,15 @@
  */
 function PQueue()
 {
-    this.pq = new List(); // requirement: linked-list implementation
+    this.pq = new Heap(); // requirement: linked-list implementation
 
     // specify (design) methods
 
     this.isEmpty = isEmptyImpl; // return true if queue empty
     this.deleteMin = deleteMinImpl; // remove/return item with minimum priority
-    this.insert = insertImpl; // insert an item with priority
+    this.insert = insertPQImpl; // insert an item with priority
     this.decrease = decreaseImpl; // (fill) update item priority (decrease as defined in textbook) 
+    this.isMinHeap = true;
 
 }
 
@@ -93,41 +94,10 @@ function isEmptyImpl()
  */
 function deleteMinImpl()
 {
-    if(!this.isEmpty())
-    {   // temp to traverse the queue
-    	var temp = this.pq.first, 
-    	minKey = Infinity, 
-    	minNode = null, 
-    	deleteNode = null;
-        
-    	//search for minimum node 
-    	while(temp != null)
-    	{   
-    		if(temp.item.prior < minKey)
-    		{
-    			minKey = temp.item.prior;
-    			minNode = temp.item;
-    		}
-    		temp = temp.next;
-    	}
-    	//store minimum node
-    	deleteNode = minNode;
-    	
-        //delete minimum node
-    	if(this.pq.first.item == minNode)
-    	{
-    		deleteNode = this.pq.delete_first().item * -1;
-    	}else
-    	{
-    		temp = this.pq.first;
-    		while(temp.next.item != minNode)
-    		{
-    			temp = temp.next;
-    		}
-    		temp.next = temp.next.next;
-    	}
-    return 	deleteNode;
-    }
+    var deletedItem = this.pq.deleteRoot();
+    	if (this.isMinHeap)
+    		deletedItem.key = deletedItem.key*-1;
+    	return deletedItem;
 }
 //-------------------------------------------------------------------------
 /**
@@ -136,9 +106,9 @@ function deleteMinImpl()
  * @param {PQNode} item 
  * @param {Integer} key 
  */
-function insertImpl(item, key)
+function insertPQImpl(item, key)
 {
-     this.pq.insert(new PQNode((item * -1), key ));
+     this.pq.insert(this.isMinHeap?key*-1 : key, new PQNode(item));
 }
 //-------------------------------------------------------------------------
 /**

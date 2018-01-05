@@ -122,15 +122,14 @@ function heapifyImpl()
 }
 
 /** 
-  implements Heap Bottom Up algorithm referenced from Livien P.229
+  implements Heap Bottom Up algorithm 
   @methodof heap#
   @author Hend Tayeb
 */
 function reheapifyImpl()
 {
-	var n = this.size, i;
-	for(i = Math.floor(n/2); i >= 1; i = i % 2 == 0 ? i / 2 : (i - 1) / 2)
-	{
+	var n = this.size, i = Math.floor(n/2);
+	
 		var k = i;
 		var v = {key: this.h[k], item:this.h_item[k]};
 		var heap = false;
@@ -148,12 +147,9 @@ function reheapifyImpl()
 			{
 				this.h[k] = this.h[j];
 				this.h_item[k] = this.h_item[j];
-				k = j;
+				k = k % 2 == 0 ? k / 2 : (k - 1) / 2;
 			}
 		}
-		this.h[k] = v.key;
-		this.h_item[k] = v.item;
-	}
 }
 
 function heapShow()

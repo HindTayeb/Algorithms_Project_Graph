@@ -90,7 +90,7 @@ function insertImpl(key, data_item)
 function heapifyImpl()
 {
 	var n= this.size, i;
-	for (i= Math.floor; i < n; i = i % 2 == 0 ? i++ : 2*n)
+	for (i= 1; i < n; i = i % 2 == 0 ? i++ : 2*n)
 	{
 		var k = i;
 		var v = {key: this.h[k], item: this.h_item[k]};

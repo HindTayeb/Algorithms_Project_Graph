@@ -78,7 +78,7 @@ function deleteRootImpl()
 function insertImpl(key, data_item)
 {
 	this.size++;
-	this.h[this.size] = key;
+	this.h[this.size] = key*-1;
 	this.h_item[this.size] = data_item;
 	this.reheapify();
 }
@@ -92,10 +92,11 @@ function heapifyImpl()
 	var n= this.size, i = 1;
 	var k = i;
 	var v = {key: this.h[k], item: this.h_item[k]};
+	var j = 2*k;
 	var heap = false;
-		while(!heap && 2*k <= n) 
+		while(!heap && j <= n) 
 		{
-			var j = 2*k;
+			
 			if (j < n)
 			{
 				if (h[j] < h[j+1])
@@ -109,11 +110,13 @@ function heapifyImpl()
 			}
 			else 
 			{
-				this.h[k] = this.h[j];
-				this.h_item[k] = this.h_item[j];
-				k = j;
-				k = 2*k;
+				this.h[i] = this.h[j];
+				this.h_item[i] = this.h_item[j];
+				this.h[j] = v.key;
+				this.h_item[j] = v.item;
+				i = j;
 			}
+			j = i*2;
 		}
 }
 
@@ -125,13 +128,11 @@ function heapifyImpl()
 function reheapifyImpl()
 {
 	var n = this.size, i = Math.floor(n/2);
-	
-		var k = i;
-		var v = {key: this.h[k], item:this.h_item[k]};
+	var v = {key: this.h[i], item:this.h_item[i]};
+	var j = 2*i;
 		var heap = false;
-		while(!heap && 2*k <= n)
+		while(i > 0 && !heap)
 		{
-			var j = 2*k;
 			if(j < n)
 			{
 				if(this.h[j] < this.h[j+1])
@@ -141,10 +142,15 @@ function reheapifyImpl()
 				heap = true;
 			}else 
 			{
-				this.h[k] = this.h[j];
-				this.h_item[k] = this.h_item[j];
-				k = k % 2 == 0 ? k / 2 : (k - 1) / 2;
+				this.h[i] = this.h[j];
+				this.h_item[i] = this.h_item[j];
+				this.h[j] = v.key;
+				this.h_item[j] = v.item;
+				i = i % 2 == 0 ? i / 2 : (i - 1) / 2;
+				v.key = this.h[i];
+				v.item = this.h_item[i];
 			}
+			j = 2*i;
 		}
 }
 

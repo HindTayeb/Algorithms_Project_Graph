@@ -27,7 +27,7 @@ function Heap()
 
 	this.isEmpty = isEmptyImpl;        // return true if heap empty
 	this.deleteRoot = deleteRootImpl;  // return data-item in root
-	this.insert = insertImpl;          // insert data-item with key
+	this.insert = insertHeapImpl;          // insert data-item with key
 	
 	this.heapify = heapifyImpl;        // make subtree heap; top-down heapify ("sink") used by .deleteRoot()
 	this.reheapify = reheapifyImpl;    // bottom-up reheapify ("swim") used by .insert()
@@ -55,12 +55,12 @@ function isEmptyImpl()
 /** 
   delete the root node of heap tree
   @methodof heap#
-  @return {string} the node's data item
+  @return {integer, string} the node's key and data item
   @author Hend Tayeb
 */
 function deleteRootImpl()
 {
-	var data_item = this.h_item[1];
+	var data_item = {key: this.h[i], item: this.h_item[1]};
 	if(!this.isEmpty())
 	{
 		this.h[1] = this.h[this.size];
@@ -68,6 +68,7 @@ function deleteRootImpl()
 		this.heapify();
 
 	}
+	return data_item;
 }
 
 /** 
@@ -75,10 +76,10 @@ function deleteRootImpl()
   @methodof heap#
   @author Hend Tayeb
 */
-function insertImpl(key, data_item)
+function insertHeapImpl(key, data_item)
 {
 	this.size++;
-	this.h[this.size] = key*-1;
+	this.h[this.size] = key;
 	this.h_item[this.size] = data_item;
 	this.reheapify();
 }

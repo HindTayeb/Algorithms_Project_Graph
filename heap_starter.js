@@ -78,7 +78,7 @@ function deleteRootImpl()
 function insertImpl(key, data_item)
 {
 	this.size++;
-	this.h[this.size] = key*-1;
+	this.h[this.size] = key;
 	this.h_item[this.size] = data_item;
 	this.reheapify();
 }
@@ -89,23 +89,21 @@ function insertImpl(key, data_item)
  */
 function heapifyImpl()
 {
-	var n= this.size, i;
-	for (i= 1; i <= n; i = i % 2 == 0 ? i++ : 2*i)
-	{
-		var k = i;
-		var v = {key: this.h[k], item: this.h_item[k]};
-		var heap = false;
+	var n= this.size, i = 1;
+	var k = i;
+	var v = {key: this.h[k], item: this.h_item[k]};
+	var heap = false;
 		while(!heap && 2*k <= n) 
 		{
 			var j = 2*k;
 			if (j < n)
 			{
-				if (h[j] > h[j+1])
+				if (h[j] < h[j+1])
 				{
 					j++;
 				}
 			}
-			if (v.key <= h[j])
+			if (v.key >= h[j])
 			{
 				heap = true;
 			}
@@ -113,12 +111,10 @@ function heapifyImpl()
 			{
 				this.h[k] = this.h[j];
 				this.h_item[k] = this.h_item[j];
-				k=j;
+				k = j;
+				k = 2*k;
 			}
 		}
-		this.h[k] = v.key;
-		this.h_item[k] = v.key;
-	}
 }
 
 /** 

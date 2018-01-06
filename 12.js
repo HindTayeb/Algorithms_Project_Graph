@@ -370,8 +370,8 @@ function dfsTCImpl()
 //---------------------------------------
 /**
 	 Implement first version of prims algorithms on graph and return the minimum spanning tree for it.
-
-	 @return {object[]} Array of custom objects containing minimum spanning tree of graph, in input order by default.
+	@return {object[]} Array of custom objects containing minimum spanning tree of graph, in input order by default.
+	@author Hend Tayeb
  */
 
  function primImpl()
@@ -608,7 +608,7 @@ function Heap()
   check if heap is empty 
   @methodof heap#
   @return {boolean} the status of heap
-  @author Hend Tayeb
+  @author Wejdan Aljedani
 */
 function isEmptyImpl()
 {
@@ -619,7 +619,7 @@ function isEmptyImpl()
   delete the root node of heap tree
   @methodof heap#
   @return {integer, string} the node's key and data item
-  @author Hend Tayeb
+  @author Wejdan Aljedani
 */
 function deleteRootImpl()
 {
@@ -637,7 +637,7 @@ function deleteRootImpl()
 /** 
   insert item in heap tree
   @methodof heap#
-  @author Hend Tayeb
+  @author Wejdan Aljedani
 */
 function insertHeapImpl(key, data_item)
 {
@@ -654,9 +654,8 @@ function insertHeapImpl(key, data_item)
 function heapifyImpl()
 {
 	var n= this.size, i = 1;
-	var k = i;
-	var v = {key: this.h[k], item: this.h_item[k]};
-	var j = 2*k;
+	var v = {key: this.h[i], item: this.h_item[i]};
+	var j = 2*i;
 	var heap = false;
 		while(!heap && j <= n) 
 		{
@@ -789,7 +788,7 @@ function better_input(v,e)
 }
 
 
-//---------------------------------------
+
 function makeAdjMatrixImpl2()
 {
 	// initially create row elements and zero the adjacncy matrix
@@ -827,13 +826,13 @@ function makeAdjMatrixImpl2()
 		}
 	}
 }
-//---------------------------------------
+
 function isConnectedImpl()
 {
 	return this.connectedComp == 1;
 }
 
-//---------------------------------------
+
 function reportConnectivity()
 {
 	switch(this.connectedComp){
@@ -843,7 +842,7 @@ function reportConnectivity()
 	}
 }
 
-//---------------------------------------
+
 function adjacentByIdImpl()
 {
 	var adj =this.adjacent.traverse(), a=[],i;
@@ -854,7 +853,7 @@ function adjacentByIdImpl()
 	return a;
 }
 
-//---------------------------------------
+
 function print_graphImpl()
 {
     document.write("<p>GRAPH {",this.label, "} ", this.weighted?"WEIGHTED, ":"", this.digraph?"":"UN", "DIRECTED - ", 
@@ -868,7 +867,7 @@ function print_graphImpl()
     	}
 }
 
-//---------------------------------------
+
 function insertAdjacentImp(v_i,weight)
 {
 	if (weight != null)
@@ -878,7 +877,7 @@ function insertAdjacentImp(v_i,weight)
 	this.adjacent.insert(v_i);
 }
 
-//---------------------------------------
+
 function add_edgeImpl2(u_i, v_i, weight)
 {
 	// fetch vertices using their id, where u: edge source vertex, v: target vertex
@@ -904,7 +903,7 @@ function add_edgeImpl2(u_i, v_i, weight)
 	}
 }
 
-//---------------------------------------
+
 function vertexInfoImpl()
 {
 	var adjIDs = [], incEd = this.incidentEdge();
@@ -925,7 +924,7 @@ function printMatrix(matrix)
 	}
 }
 
-//---------------------------------------
+
 function copyMatrix(matrix, type)
 {
 	var TCMatrix = [], distMatrix = [];
@@ -951,7 +950,7 @@ function copyMatrix(matrix, type)
 
 }
 
-//---------------------------------------
+
 function include(item, array)
 {
 	for(var i = 0; i < array.length; i++)
@@ -964,12 +963,6 @@ function include(item, array)
 	return false;
 }
 
-//---------------------------------------
-/**
-	 Get information about edges incident to vertex. Information is returned in an array of special output objects.
-
-	 @return {object[]} Array of custom objects containing edge information, in input order by default.
- */
 
 function incidentEdgeImpl()
 {
@@ -981,27 +974,4 @@ function incidentEdgeImpl()
    return a;
 }
 
-//---------------------------------------
-/**
-	 Output to display edges given in input.
-	 @author Wejdan Aljedani
-	 
-	 @param {var} Graph
-*/
 
-function print_edges(g)
-{
-	for (var i = 0; i < g.prim2().length; i++)
-	{
-		document.writeln("(", g.prim2()[i].edge.parent_i,",",g.prim2()[i].edge.vertex_i,")");
-		
-		if(i<g.prim2().length-1)
-		{
-			document.writeln(",");
-		}
-		else
-		{
-			document.writeln(".", "<br>");
-		}
-	}
-}

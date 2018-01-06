@@ -60,7 +60,7 @@ function isEmptyImpl()
 */
 function deleteRootImpl()
 {
-	var data_item = {key: this.h[i], item: this.h_item[1]};
+	var data_item = {key: this.h[1], item: this.h_item[1]};
 	if(!this.isEmpty())
 	{
 		this.h[1] = this.h[this.size];

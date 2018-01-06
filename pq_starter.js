@@ -110,25 +110,5 @@ function insertPQImpl(item, key)
 {
      this.pq.insert(this.isMinHeap?key*-1 : key, new PQNode(item));
 }
-//-------------------------------------------------------------------------
-/**
- * method for update priority.
- * @author Sahar Ashmawi
- * @param {Object} item // vertex 
- * @param {Integer} key // distance
- */
-function decreaseImpl(item, key)
-{
-    //search for the node to be updated
-   var temp = this.pq.first;
-    while(temp != null)
-    {
-    	if(temp.item.item.label == item.label)
-    	{   //update the priority 
-    		if(temp.item.prior > key)
-    			temp.item.prior = key;
-    			break;
-    	}
-    	temp = temp.next;
-    }
-}
+
+

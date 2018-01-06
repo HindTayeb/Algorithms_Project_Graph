@@ -443,7 +443,7 @@ function primImpl2()
 	{
 		this.vert[i].visit = false;
 	}
-	    var PQ=new HPQueue();//initialize priority queue 
+	    var PQ=new PQueue();//initialize priority queue 
 		//initiate vertex tree with the first vertex
 		 vertexT[0] = this.vert[0]; //set first vertex in vertex tree 
 		 this.vert[0].visit=true;//set first vertex as visited

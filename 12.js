@@ -12,73 +12,59 @@ _e = []; // note naming convention in upload guide
 // -----------------------------------------------------------------------
 function main_graph()
 {
-// create Heap object
-var heap = new Heap();
-var test = [
-{
-	data: "a",
-	key: 2
-
-},
-{
-	data: "b",
-	key: 9
-},
-{
+	// create Heap object
+	var heap = new Heap();
+	heap.insert(2,"a");
+	heap.insert(9,"b");
+	heap.insert(7,"c");
+	heap.insert(6,"d");
+	heap.insert(5,"e");
+	heap.insert(8,"f");
+	document.write(heap.show()); 
 
 
-	data: "c",
-	key: 7
-},
-{
-	data: "d",
-	key: 6
-},
-{
-	data: "e",
-	key: 5
-},
-{
-	data: "f",
-	key: 8
-}];
-
-for (var i = 0; i < test.length; i++)
-{
-	heap.insert(test[i].key, test[i].data);
-}
-
-document.write(heap.show()); 
+	heap.insert(10, "g");
+	document.write(heap.show());
 
 
-heap.insert(10, "g");
-document.write(heap.show());
+	heap.insert(15, "h");
+	document.write(heap.show());
 
+	// create a graph (default undirected)
+	var g = new Graph();
+	g.label = "Exercise 9.2: 1b (Levitin, 3rd edition)";
+	g.readGraph(_v, _e);
+	g.printGraph();
+	
+	document.write("<p>MST by Prim2 (PQ)<br>");
+	g.prim2();
+	for (var i = 0; i < g.this.Vt.length; i++)
+	{
+		document.writeln("(", g.this.Vt[i].parent, ",", g.this.Vt[i].vtree, ")");
+		if(i<graph.Vt.length-1)
+		{
+			document.writeln(",");
+		}
+		else
+		{
+			document.writeln(".", "<br>");
+		}
+	}
 
-heap.insert(15, "h");
-document.write(heap.show());
-
-// create a graph (default undirected)
-var g = new Graph();
-// set graph properties
-g.label = "Exercise 9.2: 1b (Levitin, 3rd edition)";
-// use global input arrays _v and _e to initialize its internal data structures
-g.readGraph(_v, _e);
-// use print_graph() method to check graph
-g.printGraph();
-document.write("<p>MST by Prim2 (PQ)<br>");
-
-g.prim();
-for (var i = 0; i < g.this.Vt.length; i++)
-{
-	document.writeln("(", g.this.Vt[i].parent, ",", g.this.Vt[i].vtree, ")");
-}
-
-g.prim1();
-for (var i = 0; i < g.this.Vt.length; i++)
-{
-	document.writeln("(", g.this.Vt[i].parent, ",", g.this.Vt[i].vtree, ")");
-}
+	document.write("<br>MST by first Prim (PQ)<br>");
+	g.prim1();
+	for (var i = 0; i < g.this.Vt.length; i++)
+	{
+		document.writeln("(", g.this.Vt[i].parent, ",", g.this.Vt[i].vtree, ")");
+		if(i<graph.Vt.length-1)
+		{
+			document.writeln(",");
+		}
+		else
+		{
+			document.writeln(".", "<br>");
+		}
+	}
 
 }
 
@@ -167,12 +153,12 @@ this.topoSearch = topoSearchImpl;
 this.R = []; // TC matrix by warshall
 this.D = []; // distance matrix by floyed
 this.dfsTCMatrix = [];
-this.spt = []; //shortest path treee
+this.Vt = [];
 
 // --------------------
 // student methods next (actual functions in student code sections)
-this.prim = primImpl2;
 this.prim1 = primImpl;
+this.prim2 = primImpl2;
 this.shortestPathTree = //dijkstraImpl;
 	this.getVertex = //getVertexImpl;
 

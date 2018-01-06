@@ -686,36 +686,36 @@ this.reheapify();
 */
 function heapifyImpl()
 {
-var n = this.size,
-	i = 1;
-var v = {
-	key: this.h[i],
-	item: this.h_item[i]
-};
-var j = 2 * i;
-var heap = false;
-while (!heap && j <= n)
-{
-	if (j < n)
+	var n = this.size,
+		i = 1;
+	var v = {
+		key: this.h[i],
+		item: this.h_item[i]
+	};
+	var j = 2 * i;
+	var heap = false;
+	while (!heap && j <= n)
 	{
-		if (h[j] < h[j + 1])
+		if (j < n)
 		{
-			j++;
+			if (this.h[j] < this.h[j + 1])
+			{
+				j++;
+			}
 		}
-	}
-	if (v.key >= h[j])
-	{
-		heap = true;
-	}
-	else
-	{
-		this.h[i] = this.h[j];
-		this.h_item[i] = this.h_item[j];
-		this.h[j] = v.key;
-		this.h_item[j] = v.item;
-		i = j;
-	}
-	j = 2 * i;
+		if (v.key >= this.h[j])
+		{
+			heap = true;
+		}
+		else
+		{
+			this.h[i] = this.h[j];
+			this.h_item[i] = this.h_item[j];
+			this.h[j] = v.key;
+			this.h_item[j] = v.item;
+			i = j;
+		}
+		j = 2 * i;
 }
 }
 // -----------------------------------------------------------------------
@@ -727,60 +727,60 @@ implements Heap Bottom Up algorithm
 */
 function reheapifyImpl()
 {
-var n = this.size,
-	i = Math.floor(n / 2);
-var v = {
-	key: this.h[i],
-	item: this.h_item[i]
-};
-var j = 2 * i;
-var heap = false;
-while (i > 0 && !heap)
-{
-	if (j < n)
+	var n = this.size,
+		i = Math.floor(n / 2);
+	var v = {
+		key: this.h[i],
+		item: this.h_item[i]
+		};
+	var j = 2 * i;
+	var heap = false;
+	while (i > 0 && !heap)
 	{
-		if (this.h[j] < this.h[j + 1])
-			j++;
-	}
-	if (v.key >= this.h[j])
-	{
-		heap = true;
-	}
-	else
-	{
-		this.h[i] = this.h[j];
-		this.h_item[i] = this.h_item[j];
-		this.h[j] = v.key;
-		this.h_item[j] = v.item;
-		i = i % 2 == 0 ? i / 2 : (i - 1) / 2;
-		v.key = this.h[i];
-		v.item = this.h_item[i];
-	}
-	j = 2 * i;
+		if (j < n)
+		{
+			if (this.h[j] < this.h[j + 1])
+				j++;
+		}
+		if (v.key >= this.h[j])
+		{
+			heap = true;
+		}
+		else
+		{
+			this.h[i] = this.h[j];
+			this.h_item[i] = this.h_item[j];
+			this.h[j] = v.key;
+			this.h_item[j] = v.item;
+			i = i % 2 == 0 ? i / 2 : (i - 1) / 2;
+			v.key = this.h[i];
+			v.item = this.h_item[i];
+		}
+		j = 2 * i;
 }
 }
 // -----------------------------------------------------------------------
 
 function heapShow()
 {
-var n = this.size;
-var m = Math.floor(n / 2); // last parent node
+	var n = this.size;
+	var m = Math.floor(n / 2); // last parent node
 
-var k = this.h.slice(1, n + 1),
+	var k = this.h.slice(1, n + 1),
 	a = this.h_item.slice(1, n + 1);
 
-var out = "<h2>Heap (size=" + n + "):</h2><p>Keys: " + k + "<br>Data: " + a + "</p>";
-for (var i = 1; i <= m; i++)
-{
-	out += "<p>" + i + ": <b>" + this.h[i] + "(" + this.h_item[i] + ")</b><ul>";
-	if (2 * i <= n)
-		out += "<li>" + this.h[2 * i] + "</li>";
-	if (2 * i + 1 <= n)
-		out += "<li>" + this.h[2 * i + 1] + "</li>";
-	out += "</ul></p>";
-}
+	var out = "<h2>Heap (size=" + n + "):</h2><p>Keys: " + k + "<br>Data: " + a + "</p>";
+	for (var i = 1; i <= m; i++)
+	{
+		out += "<p>" + i + ": <b>" + this.h[i] + "(" + this.h_item[i] + ")</b><ul>";
+		if (2 * i <= n)
+			out += "<li>" + this.h[2 * i] + "</li>";
+		if (2 * i + 1 <= n)
+			out += "<li>" + this.h[2 * i + 1] + "</li>";
+		out += "</ul></p>";
+	}
 
-return out;
+	return out;
 }
 
 //----------------------
@@ -794,9 +794,9 @@ return out;
 
 function better_input(v, e)
 {
-// set number of vertices and edges fields
-this.nv = v.length;
-this.ne = e.length;
+	// set number of vertices and edges fields
+	this.nv = v.length;
+	this.ne = e.length;
 
 // input vertices into internal vertex array
 var i, ver;
